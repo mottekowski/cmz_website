@@ -1,0 +1,15 @@
+---
+import { site } from '../config/site';
+---
+<footer>
+<div class="site-footer wrap">
+  <a class="wordmark" href="/#start">CHRISTOPH ZINK</a>
+  <span class="footer-statement" lang="en">BETWEEN SIGNAL AND NOISE.</span>
+  <nav aria-label="Rechtliche Informationen">
+    <a href="/impressum/">Impressum</a>
+    <a href="/datenschutz/">Datenschutz</a>
+  </nav>
+  <a class="back-to-top" href="#start" aria-label="Zurück nach oben">↑</a>
+</div>
+{!site.indexable && <p class="draft-note wrap">Lokaler Entwurf · Kontakt- und Rechtsangaben offen · Nicht zur Veröffentlichung freigegeben</p>}
+</footer>

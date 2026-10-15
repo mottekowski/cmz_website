@@ -1,0 +1,31 @@
+---
+import '@fontsource-variable/manrope';
+import '../styles/global.css';
+import { site } from '../config/site';
+interface Props { title?: string; description?: string; noindex?: boolean }
+const { title = site.title, description = site.description, noindex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+---
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0B0C0D" />
+    <meta name="description" content={description} />
+    <meta name="robots" content={site.indexable && !noindex ? 'index, follow' : 'noindex, nofollow'} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:site_name" content="Christoph Zink" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
+    <slot />
+  </body>
+</html>

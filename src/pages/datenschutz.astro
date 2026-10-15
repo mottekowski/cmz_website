@@ -1,0 +1,25 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../config/site';
+---
+<Layout title="Datenschutz — Christoph Zink" noindex>
+  <div id="start"><Header /></div>
+  <main id="inhalt" class="legal-page wrap">
+    <p class="eyebrow">LOKALER ENTWURF</p>
+    <h1>Datenschutz</h1>
+    <p class="legal-notice">Nicht veröffentlichungsfähig. Hier liegt noch keine vollständige Datenschutzerklärung vor.</p>
+    <h2>Technischer Stand dieses Entwurfs</h2>
+    <p>Die Website liefert statisches HTML, CSS, lokal gespeicherte Schriftdateien und eigene SVG-Grafiken aus. Der Anwendungscode setzt keine Cookies, verwendet kein Tracking und bindet keine externen Inhalte ein. Es gibt kein Kontaktformular.</p>
+    <h2>Vor Veröffentlichung zu ergänzen</h2>
+    <dl>
+      <div><dt>Hosting-Anbieter</dt><dd>{site.legal.hostingProvider ?? 'OFFEN — Anbieter noch nicht festgelegt'}</dd></div>
+      <div><dt>Hosting-Standort</dt><dd>{site.legal.hostingLocation ?? 'OFFEN — tatsächlichen Hosting-Standort ergänzen'}</dd></div>
+      <div><dt>Serverprotokolle und Aufbewahrungsdauer</dt><dd>{site.legal.serverLogPolicy ?? 'OFFEN — tatsächliche Verarbeitung beim Hosting klären'}</dd></div>
+      <div><dt>Geprüfte Datenschutzerklärung</dt><dd class="preserve-lines">{site.legal.privacyText ?? 'OFFEN — Verantwortliche Person, Kontakt, tatsächliche Datenverarbeitung und erforderliche Informationen ergänzen und prüfen lassen'}</dd></div>
+    </dl>
+    <a class="text-link" href="/">ZURÜCK ZUR STARTSEITE</a>
+  </main>
+  <Footer />
+</Layout>

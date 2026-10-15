@@ -1,0 +1,12 @@
+---
+interface Props { home?: boolean }
+const { home = false } = Astro.props;
+const prefix = home ? '' : '/';
+const links = [['start', 'Start'], ['ueber-mich', 'Über mich'], ['themen', 'Themen'], ['impulse', 'Impulse'], ['kontakt', 'Kontakt']];
+---
+<header class="site-header wrap">
+  <a class="wordmark" href={`${prefix}#start`} aria-label="Christoph Zink – Start">CHRISTOPH ZINK</a>
+  <nav aria-label="Hauptnavigation">
+    {links.map(([id, label]) => <a href={`${prefix}#${id}`}>{label}</a>)}
+  </nav>
+</header>

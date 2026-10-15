@@ -1,0 +1,14 @@
+Wir setzen das Projekt www.christoph-zink.de gemeinsam um. Arbeite als erfahrener Frontend-Engineer mit starkem Gespür für Editorial Web Design.
+
+Lies zuerst die Datei CREATIVE_BRIEF.md vollständig. Beachte die drei Bildreferenzen im Unterordner references/ und deren Prioritäten. Der Hero ist bereits kreativ freigegeben – nicht eigenmächtig umgestalten. Insbesondere KEINE Serifenschrift aus dem Ganzseiten-Draft übernehmen, KEINE Porträtfotos und KEINE Referenz auf Schnittvisite.
+
+Auftrag für die erste Iteration:
+1) Analysiere das bestehende Workdir/Repo und schlage eine schlanke, wartbare Umsetzung für die statische persönliche Website vor (falls leer, bevorzugt Astro + TypeScript + CSS ohne schwergewichtige UI-Library).
+2) Implementiere eine hochwertige responsive One-Page-Website mit den fünf Abschnitten aus dem Brief und realem HTML/CSS. Übernimm freigegebene Texte wortgetreu.
+3) Beachte Barrierearmut, prefers-reduced-motion, Performance, SEO-Basics und Datenschutz. Verwende keine externen Bilder unklarer Lizenzlage.
+4) Lege fehlende Kontaktdaten und Impressumsangaben als klar gekennzeichnete, nicht veröffentlichungsfähige Konfigurationspunkte an; keine erfundenen Angaben.
+5) Baue lokal, prüfe Lint/Build/Links soweit möglich und dokumentiere die Preview-Anleitung.
+
+Wichtig: Unsere Bilder sind Designreferenzen mit eingebrannter Typografie. Verwende keine Ganzseiten-Screenshots als Website oder Bild-Hintergründe mit eingebrannten Texten. Falls echte abstrakte Background-Artworks fehlen, entwickle vorerst eine hochwertige CSS/SVG-Atmosphäre, die dem Design nahekommt, und kennzeichne spätere Asset-Ersatzpunkte. Keine Veröffentlichung/Deployment ohne mein ausdrückliches OK.
+
+Beginne mit einer kurzen Bestandsaufnahme und setze anschließend den ersten lauffähigen Draft um.
