@@ -93,7 +93,7 @@ Zum späteren Austausch:
 
 ## Offene Angaben vor einer Veröffentlichung
 
-`src/config/site.ts` enthält absichtlich `null` statt erfundener Daten:
+`src/config/site.ts` liest Impressums- und Hostingdaten ausschließlich aus privaten Build-Umgebungsvariablen; siehe [PRIVATE_LEGAL_DATA.md](PRIVATE_LEGAL_DATA.md). Die Werte gehören weder in Quellcode noch ins öffentliche Repository:
 
 - Vom Inhaber bestätigte E-Mail für das Impressum. Es gibt keinen Kontakt-CTA auf der Startseite.
 - Verantwortliche Person, vollständige Anschrift, Land und gegebenenfalls weitere erforderliche Impressumsangaben. Nicht zutreffende Punkte erst nach Prüfung entsprechend dokumentieren.
