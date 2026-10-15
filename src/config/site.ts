@@ -1,4 +1,14 @@
-/** Local draft. Fill only with verified, owner-supplied information. */
+/**
+ * Build-time legal details only. Never commit actual private values or use
+ * PUBLIC_-prefixed variables. Astro generates static HTML during the build.
+ *
+ * When publishing, the imprint/contact details WILL appear in the deployed
+ * HTML, as legally required; the source repository remains free of them.
+ */
+function privateBuildValue(variable: string): string | null {
+  return process.env[variable]?.trim() || null;
+}
+
 export const site = {
   name: 'Christoph Zink',
   url: 'https://www.christoph-zink.de',
@@ -6,18 +16,20 @@ export const site = {
   description: 'Strukturen, Verbindungen und neue Perspektiven. Der persönliche digitale Raum von Christoph Zink zwischen IT-Architektur, künstlicher Intelligenz, Musik und visueller Kunst.',
   indexable: false,
   publicationApproved: false,
-  email: null as string | null, // Owner-supplied legal contact for the imprint; no homepage contact CTA.
+  // Only needed on legal pages; the homepage has no contact call to action.
+  email: privateBuildValue('CMZ_LEGAL_EMAIL'),
   legal: {
-    responsibleName: null as string | null,
-    streetAndNumber: null as string | null,
-    postalCodeAndCity: null as string | null,
-    country: null as string | null,
-    additionalRequiredInformation: null as string | null,
+    responsibleName: privateBuildValue('CMZ_LEGAL_NAME'),
+    streetAndNumber: privateBuildValue('CMZ_LEGAL_STREET'),
+    postalCodeAndCity: privateBuildValue('CMZ_LEGAL_CITY'),
+    country: privateBuildValue('CMZ_LEGAL_COUNTRY'),
+    additionalRequiredInformation: privateBuildValue('CMZ_LEGAL_EXTRA'),
+    // Explicit legal review remains required; no automatic release from env.
     imprintReviewed: false,
-    privacyText: null as string | null,
-    hostingProvider: null as string | null,
-    hostingLocation: null as string | null,
-    serverLogPolicy: null as string | null,
+    privacyText: privateBuildValue('CMZ_PRIVACY_ADDITIONAL'),
+    hostingProvider: privateBuildValue('CMZ_HOSTING_PROVIDER'),
+    hostingLocation: privateBuildValue('CMZ_HOSTING_LOCATION'),
+    serverLogPolicy: privateBuildValue('CMZ_SERVER_LOG_POLICY'),
     privacyReviewed: false,
   },
 };
