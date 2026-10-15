@@ -47,6 +47,12 @@ Das Backup dieses ersten Uploads liegt lokal unter:
 
 Das Manifest enthält die übertragenen Pfade und SHA-256-Prüfsummen, keine Zugangsdaten. Es ist zusammen mit dem Backup durch `.gitignore` von Git ausgeschlossen. Vor einer Wiederherstellung zuerst sicherstellen, dass keine zwischenzeitlichen Serveränderungen überschrieben würden. Die vorherige Startseite kann mit demselben FileZilla-Eintrag aus `previous/index.html` wiederhergestellt werden. Nur nach Prüfung dürfen zusätzlich die im Manifest aufgeführten, neu angelegten Dateien entfernt werden; fremde Serverdateien bleiben erhalten.
 
+## Private Rechtstexte im Build
+
+Die Betreiber- und Hostingangaben stammen jetzt aus **privaten Build-Umgebungsvariablen** (siehe [PRIVATE_LEGAL_DATA.md](PRIVATE_LEGAL_DATA.md)). Das öffentliche Repository speichert keine persönliche Anschrift und keine Impressums-E-Mail. **Beim späteren statischen Build** werden die Werte in `dist/impressum/index.html` und `dist/datenschutz/index.html` geschrieben; erst die Übertragung dieser Build-Dateien bringt sie auf den Webserver. Kein Upload der privaten Umgebungsdatei. Ein regulärer `pnpm build`-Lauf ohne Prozessvariablen erzeugt weiterhin ausdrücklich unvollständige Entwurfsseiten.
+
+Die bereits öffentlich erreichbaren Entwurfsseiten bleiben bis zu einem ausdrücklich freigegebenen neuen Upload unverändert. Die Veröffentlichung von echten Impressumsdaten im fertigen HTML ist rechtlich zu erwarten und zu beabsichtigen, aber **nicht in der Git-Historie**.
+
 ## Weiterer Upload
 
 Voraussetzungen: aktueller erfolgreicher Build und Checks; lokale FileZilla-Konfiguration mit genau dem geprüften Eintrag. Python-Standardbibliothek genügt.
