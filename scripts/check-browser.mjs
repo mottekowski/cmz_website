@@ -10,7 +10,7 @@ const channel = process.env.BROWSER_CHANNEL || (process.platform === 'win32' ? '
 const browser = await chromium.launch({ channel, headless: true });
 const reports = [];
 const captures = [];
-const reviewDir = 'review/2026-10-15';
+const reviewDir = process.env.REVIEW_DIR || 'review/2026-10-15';
 await mkdir('.qa', { recursive: true });
 await mkdir(reviewDir, { recursive: true });
 async function capture(target, filename, options = {}) {

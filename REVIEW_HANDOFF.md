@@ -1,5 +1,7 @@
 # christoph-zink.de — Review-Handoff
 
+> Historischer Stand der Design-Korrekturrunde. Anschließend wurde der öffentliche Upload als weiterhin nicht final freigegebener Entwurf ausdrücklich autorisiert. Der aktuelle Hosting-Stand steht in [DEPLOYMENT.md](DEPLOYMENT.md). Die folgenden Testergebnisse und Screenshots dokumentieren unverändert die Designprüfung vor diesem Upload.
+
 **Stand:** 15.10.2026 · Review-Korrekturrunde nach dem ersten Draft
 
 **Status:** Bereit für externe Designprüfung. **Keine Veröffentlichungsfreigabe. Kein Deployment.**

@@ -1,6 +1,6 @@
 # Christoph Zink — Between Signal and Noise.
 
-Lokaler Draft mit Review-Korrekturen vom 15.10.2026. **Nicht zur Veröffentlichung freigegeben.** Aktuelle Abnahmeunterlagen: [REVIEW_HANDOFF.md](REVIEW_HANDOFF.md).
+Öffentlicher Entwurf mit Review-Korrekturen vom 15.10.2026. Der Inhaber hat den Upload trotz offener Rechtsangaben ausdrücklich freigegeben. **Keine finale Produktionsfreigabe.** Live-Adresse, Backup und Upload-Verfahren: [DEPLOYMENT.md](DEPLOYMENT.md). Design-Abnahmeunterlagen: [REVIEW_HANDOFF.md](REVIEW_HANDOFF.md).
 
 ## Bestandsaufnahme und Umsetzung
 
@@ -41,7 +41,7 @@ pnpm check:links
 pnpm preview --port 4321
 ```
 
-Der Build liegt in `dist/`. `preview` zeigt genau diesen Build, aktualisiert ihn aber nicht selbst. Nach Quelländerungen erneut bauen; alternativ `dev` für die laufende Arbeit verwenden. Es existiert kein Deployment-Skript.
+Der Build liegt in `dist/`. `preview` zeigt genau diesen Build, aktualisiert ihn aber nicht selbst. Nach Quelländerungen erneut bauen; alternativ `dev` für die laufende Arbeit verwenden. Der FTPS-Upload erfolgt separat über `scripts/deploy-filezilla.py`, siehe [DEPLOYMENT.md](DEPLOYMENT.md); ein Build veröffentlicht nichts automatisch.
 
 Bei laufendem Preview in einem zweiten Terminal:
 
@@ -105,7 +105,7 @@ Die vorhandenen Rechtsseiten sind sichtbar markierte Arbeitsstände und **keine 
 
 `indexable: false` setzt `noindex, nofollow`, `robots.txt` sperrt Crawling, die Sitemap ist leer. Die Canonicals und OG-Titel/-Beschreibung sind bereits für `https://www.christoph-zink.de` vorbereitet. Ein OG-Vorschaubild bleibt bis zur Auswahl eines geeigneten finalen Assets offen. Erst nach Prüfung und Freigabe die Indexierung aktivieren; dann enthält die Sitemap die Startseite. Rechtsseiten bleiben standardmäßig `noindex`.
 
-Die Indexierungssperre ist keine Zugangskontrolle. Der Draft bleibt lokal und wird nicht auf einen öffentlichen Host hochgeladen.
+Die Indexierungssperre ist keine Zugangskontrolle. Der Entwurf ist aufgrund der späteren ausdrücklichen Entscheidung des Inhabers öffentlich erreichbar; die offenen Rechtsangaben und Entwurfskennzeichnungen bleiben erhalten. Zusätzlich sendet Apache über `public/.htaccess` einen `X-Robots-Tag` gegen Indexierung. Eine spätere Indexierungsfreigabe erfordert auch die Anpassung dieses Headers.
 
 ## Datenschutz, Barrierearmut und Performance
 
@@ -122,4 +122,4 @@ Aktuelle Testergebnisse, Screenshot-Abmessungen, bekannte Einschränkungen und o
 
 Der vollständige Build umfasst ungefähr 570 KiB unkomprimiert inklusive sämtlicher Grafiken, Seiten und ausgelieferter Font-Subsets. Das ist keine Messung der initial übertragenen Datenmenge. Die Startseite liefert kein JavaScript aus. Gzip/Brotli und Cache-Header sind später passend zum gewählten Hosting einzurichten.
 
-Grenzen: kein vollständiges manuelles WCAG-Audit, kein Screenreader-/Safari-/Firefox-/Realgeräte-Test und keine Messung auf gedrosselter Mobilverbindung. Keine rechtliche Freigabe und kein Deployment durchgeführt.
+Grenzen: kein vollständiges manuelles WCAG-Audit, kein Screenreader-/Safari-/Firefox-/Realgeräte-Test und keine Messung auf gedrosselter Mobilverbindung. Keine rechtliche oder finale Produktionsfreigabe. Der gesondert autorisierte Entwurfs-Upload ist in [DEPLOYMENT.md](DEPLOYMENT.md) dokumentiert.
