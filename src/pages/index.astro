@@ -3,8 +3,8 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import SectionHeading from '../components/SectionHeading.astro';
-import { hero, about, topics, signals, contact } from '../data/content';
-import { site, artwork } from '../config/site';
+import { hero, about, topics, signals } from '../data/content';
+import { artwork } from '../config/site';
 ---
 <Layout>
   <div class="hero-shell" id="start">
@@ -76,16 +76,11 @@ import { site, artwork } from '../config/site';
           </div>
         </div>
       </section>
-      <section id="kontakt" class="section contact-section" aria-labelledby="contact-title">
-        <div class="wrap contact-grid">
-          <SectionHeading number="05" id="contact-title" first="STAY CURIOUS." second="STAY CONNECTED." />
-          <div class="contact-copy">
-            <p>{contact}</p>
-            {site.email ? <a class="button" href={`mailto:${site.email}`}>KONTAKT AUFNEHMEN <span aria-hidden="true">↗</span></a> : <>
-              <button class="button" type="button" disabled aria-describedby="contact-pending">KONTAKT AUFNEHMEN <span aria-hidden="true">↗</span></button>
-              <p class="contact-pending" id="contact-pending">Kontaktadresse folgt. Im lokalen Entwurf noch nicht verfügbar.</p>
-            </>}
-          </div>
+      <section class="section closing-section" aria-labelledby="closing-title">
+        <div class="wrap closing-composition">
+          <span class="closing-orbit" aria-hidden="true"></span>
+          <h2 id="closing-title" lang="en">STAY CURIOUS.</h2>
+          <span class="closing-horizon" aria-hidden="true"></span>
         </div>
       </section>
     </main>

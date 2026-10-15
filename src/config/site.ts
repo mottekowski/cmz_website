@@ -6,7 +6,7 @@ export const site = {
   description: 'Strukturen, Verbindungen und neue Perspektiven. Der persönliche digitale Raum von Christoph Zink zwischen IT-Architektur, künstlicher Intelligenz, Musik und visueller Kunst.',
   indexable: false,
   publicationApproved: false,
-  email: null as string | null,
+  email: null as string | null, // Owner-supplied legal contact for the imprint; no homepage contact CTA.
   legal: {
     responsibleName: null as string | null,
     streetAndNumber: null as string | null,

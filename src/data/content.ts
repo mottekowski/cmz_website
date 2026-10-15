@@ -41,5 +41,3 @@ export const signals = [
   { title: 'ON REPEAT.', category: '02 / MUSIC', body: 'Musik, Einflüsse und persönliche Notizen.', image: '/art/repeat.svg' },
   { title: 'AI WORKBENCH.', category: '03 / AI LAB', body: 'KI-Experimente, Werkzeuge und Prototypen.', image: '/art/workbench.svg' },
 ];
-
-export const contact = 'Gute Gespräche beginnen oft mit einer interessanten Frage. Ob Technologie, Kreativität oder einfach ein neuer Gedanke – der Austausch ist willkommen.';

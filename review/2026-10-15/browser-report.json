@@ -1,0 +1,219 @@
+{
+  "browser": "msedge 155.0.4283.45",
+  "reducedMotion": "reduce",
+  "deviceScaleFactor": 1,
+  "reports": [
+    {
+      "width": 1440,
+      "height": 900,
+      "heroLines": [
+        {
+          "text": "BETWEEN",
+          "lines": 1,
+          "fits": true
+        },
+        {
+          "text": "SIGNAL",
+          "lines": 1,
+          "fits": true
+        },
+        {
+          "text": "AND NOISE.",
+          "lines": 1,
+          "fits": true
+        }
+      ],
+      "violations": [],
+      "external": [],
+      "errors": []
+    },
+    {
+      "width": 1024,
+      "height": 900,
+      "heroLines": [
+        {
+          "text": "BETWEEN",
+          "lines": 1,
+          "fits": true
+        },
+        {
+          "text": "SIGNAL",
+          "lines": 1,
+          "fits": true
+        },
+        {
+          "text": "AND NOISE.",
+          "lines": 1,
+          "fits": true
+        }
+      ],
+      "violations": [],
+      "external": [],
+      "errors": []
+    },
+    {
+      "width": 768,
+      "height": 900,
+      "heroLines": [
+        {
+          "text": "BETWEEN",
+          "lines": 1,
+          "fits": true
+        },
+        {
+          "text": "SIGNAL",
+          "lines": 1,
+          "fits": true
+        },
+        {
+          "text": "AND NOISE.",
+          "lines": 1,
+          "fits": true
+        }
+      ],
+      "violations": [],
+      "external": [],
+      "errors": []
+    },
+    {
+      "width": 720,
+      "height": 900,
+      "heroLines": [
+        {
+          "text": "BETWEEN",
+          "lines": 1,
+          "fits": true
+        },
+        {
+          "text": "SIGNAL",
+          "lines": 1,
+          "fits": true
+        },
+        {
+          "text": "AND NOISE.",
+          "lines": 1,
+          "fits": true
+        }
+      ],
+      "violations": [],
+      "external": [],
+      "errors": []
+    },
+    {
+      "width": 430,
+      "height": 844,
+      "heroLines": [
+        {
+          "text": "BETWEEN",
+          "lines": 1,
+          "fits": true
+        },
+        {
+          "text": "SIGNAL",
+          "lines": 1,
+          "fits": true
+        },
+        {
+          "text": "AND NOISE.",
+          "lines": 1,
+          "fits": true
+        }
+      ],
+      "violations": [],
+      "external": [],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "heroLines": [
+        {
+          "text": "BETWEEN",
+          "lines": 1,
+          "fits": true
+        },
+        {
+          "text": "SIGNAL",
+          "lines": 1,
+          "fits": true
+        },
+        {
+          "text": "AND NOISE.",
+          "lines": 1,
+          "fits": true
+        }
+      ],
+      "violations": [],
+      "external": [],
+      "errors": []
+    },
+    {
+      "width": 320,
+      "height": 844,
+      "heroLines": [
+        {
+          "text": "BETWEEN",
+          "lines": 1,
+          "fits": true
+        },
+        {
+          "text": "SIGNAL",
+          "lines": 1,
+          "fits": true
+        },
+        {
+          "text": "AND NOISE.",
+          "lines": 1,
+          "fits": true
+        }
+      ],
+      "violations": [],
+      "external": [],
+      "errors": []
+    },
+    {
+      "route": "/impressum/",
+      "violations": []
+    },
+    {
+      "route": "/datenschutz/",
+      "violations": []
+    },
+    {
+      "route": "/404.html",
+      "violations": []
+    }
+  ],
+  "captures": [
+    {
+      "file": "review/2026-10-15/homepage-desktop-1440.png",
+      "width": 1440,
+      "height": 3989,
+      "sha256": "a98a1addfb57bdc3df10cd8fe8b92769ddfcc92d833bf02c9452a9c46a4907b8"
+    },
+    {
+      "file": "review/2026-10-15/hero-desktop-1440.png",
+      "width": 1440,
+      "height": 900,
+      "sha256": "5b24bcd49c4c657d22e541f8ab18ca618764bee361afec0e7944afc930f0772c"
+    },
+    {
+      "file": "review/2026-10-15/topics-desktop-1440.png",
+      "width": 1440,
+      "height": 881,
+      "sha256": "72ad9062460be17785f928adf21dfe5035215d5689c5b72b53011d22b41fbcdc"
+    },
+    {
+      "file": "review/2026-10-15/homepage-mobile-390.png",
+      "width": 390,
+      "height": 6026,
+      "sha256": "3f16e5ebc22df375395fe963b0bc08b5bbe1cafac8fe6e1e8057d32ff6651def"
+    },
+    {
+      "file": "review/2026-10-15/hero-mobile-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "bed2c9825d743cf6e9fd11e49127657a78c623ffe244ef55e7596e092e618963"
+    }
+  ]
+}

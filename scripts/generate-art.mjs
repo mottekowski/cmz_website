@@ -80,7 +80,11 @@ const cloud = (count, warm = true) => {
   }
   return result;
 };
-await save('lab.svg', svg(600, 360, cloud(450)));
+// LAB: loose particle experiment with incomplete measurement orbits.
+let lab = cloud(450);
+lab += '<g fill="none" stroke="#e6a357"><circle cx="335" cy="182" r="112" stroke-width=".8" stroke-dasharray="2 9" opacity=".42"/><path d="M208 216A132 132 0 0 1 378 57M451 245A132 132 0 0 1 276 300" stroke-width=".8" opacity=".65"/></g>';
+lab += path('M179 182H195 M475 182H491 M335 28V44 M335 320V336', '#b1afb4', .8, .6);
+await save('lab.svg', svg(600, 360, lab));
 await save('cinder.svg', svg(600, 360, cloud(600, false)));
 
 let systems = '<ellipse cx="330" cy="180" rx="320" ry="280" fill="url(#glow)" opacity=".3"/>';
@@ -89,7 +93,16 @@ nodes.forEach((a, i) => {
   nodes.slice(i + 1).forEach(b => { if (Math.hypot(a.x - b.x, a.y - b.y) < 150) systems += path(`M${n(a.x)} ${n(a.y)}L${n(b.x)} ${n(b.y)}`, '#b5814d', .6, .45); });
   systems += dot(a.x, a.y, i % 5 ? 1.5 : 3, '#e0a260', .8);
 });
-await save('systems.svg', svg(600, 360, systems));
+// SYSTEMS: deliberate connected volumes, distinct from LAB's organic field.
+let systemRooms = '<ellipse cx="300" cy="210" rx="300" ry="210" fill="url(#glow)" opacity=".17"/>';
+for (const [x, y] of [[90, 185], [240, 120], [390, 185]]) {
+  systemRooms += `<path d="M${x} ${y}l70 -40 70 40 -70 40z" fill="#1e1f21" fill-opacity=".65" stroke="#b1afb4" stroke-opacity=".5" stroke-width=".8"/>`;
+  systemRooms += path(`M${x} ${y}v100l70 40 70 -40v-100 M${x + 70} ${y + 40}v100`, '#b1afb4', .8, .38);
+  systemRooms += path(`M${x + 70} ${y - 40}v100l70 40 M${x} ${y + 100}l70 -40`, '#d97706', .7, .32);
+}
+systemRooms += path('M160 225V282L310 217 460 282V225', '#e6a357', 1.4, .9);
+systemRooms += dot(160, 225, 2.5, '#e6a357', 1) + dot(310, 217, 2.5, '#e6a357', 1) + dot(460, 225, 2.5, '#e6a357', 1);
+await save('systems.svg', svg(600, 360, systemRooms));
 await save('workbench.svg', svg(600, 360, systems + '<circle cx="320" cy="185" r="120" fill="none" stroke="#b7a18a" stroke-width=".7" opacity=".65"/><circle cx="320" cy="185" r="150" fill="none" stroke="#b7a18a" stroke-width=".5" opacity=".25"/>'));
 
 let frequencies = '';
@@ -103,11 +116,15 @@ for (let i = 0; i < 32; i++) {
 }
 await save('frequencies.svg', svg(600, 360, frequencies));
 
-let perspectives = '<ellipse cx="405" cy="190" rx="240" ry="200" fill="url(#glow)" opacity=".45"/>';
-for (let i = 0; i < 16; i++) perspectives += path(`M0 ${230 + i * 8}Q150 ${180 + i * 6} 310 ${220 + i * 5}T600 ${200 + i * 11}`, '#7b7b76', .8, .16);
-perspectives += '<path d="M0 287L83 259 123 275 215 211 289 233 380 292 450 266 600 300V360H0Z" fill="#0a0c0d"/>';
-perspectives += path('M405 20V320', '#d4a477', 1, .8);
-perspectives += '<ellipse cx="405" cy="239" rx="80" ry="90" fill="url(#glow)" opacity=".7"/>';
+// PERSPECTIVES: quiet, offset horizons with depth instead of a second light portal.
+let perspectives = '<ellipse cx="405" cy="190" rx="280" ry="150" fill="url(#glow)" opacity=".32"/>';
+perspectives += '<circle cx="405" cy="176" r="67" fill="none" stroke="#e6a357" stroke-width=".8" opacity=".5"/>';
+perspectives += '<path d="M0 233L115 184 201 206 289 161 405 214 530 178 600 198V360H0Z" fill="#1e1f21"/>';
+perspectives += path('M0 233L115 184 201 206 289 161 405 214 530 178 600 198', '#b1afb4', .8, .48);
+perspectives += '<path d="M0 288L142 243 236 270 361 226 466 257 600 219V360H0Z" fill="#121416"/>';
+perspectives += path('M0 288L142 243 236 270 361 226 466 257 600 219', '#d97706', .8, .5);
+perspectives += '<path d="M0 322L183 288 290 319 425 281 600 315V360H0Z" fill="#0b0c0d"/>';
+perspectives += path('M44 215H556', '#e6a357', .5, .28);
 await save('perspectives.svg', svg(600, 360, perspectives));
 
 let repeat = '<ellipse cx="300" cy="180" rx="330" ry="230" fill="url(#glow)" opacity=".35"/><g transform="translate(310 215) rotate(-18) scale(1 .56)">';

@@ -1,6 +1,6 @@
 # Christoph Zink — Between Signal and Noise.
 
-Erster lokaler Draft vom 15.10.2026. **Nicht zur Veröffentlichung freigegeben.**
+Lokaler Draft mit Review-Korrekturen vom 15.10.2026. **Nicht zur Veröffentlichung freigegeben.** Aktuelle Abnahmeunterlagen: [REVIEW_HANDOFF.md](REVIEW_HANDOFF.md).
 
 ## Bestandsaufnahme und Umsetzung
 
@@ -49,9 +49,9 @@ Bei laufendem Preview in einem zweiten Terminal:
 pnpm check:browser
 ```
 
-Der Browsercheck nutzt unter Windows das installierte Microsoft Edge, auf anderen Systemen Playwright Chromium. Bei Bedarf dort einmal `pnpm exec playwright install chromium` ausführen. `BROWSER_CHANNEL` und `PREVIEW_URL` sind optionale Umgebungsvariablen. Screenshots und Bericht entstehen unter `.qa/` (nicht versioniert).
+Der Browsercheck nutzt unter Windows das installierte Microsoft Edge, auf anderen Systemen Playwright Chromium. Bei Bedarf dort einmal `pnpm exec playwright install chromium` ausführen. `BROWSER_CHANNEL` und `PREVIEW_URL` sind optionale Umgebungsvariablen. Prüfartefakte entstehen unter `.qa/` (nicht versioniert); die vollständigen Desktop-/Mobile-Screenshots, Hero-Details, Themenübersicht und der Browserbericht für die externe Abnahme unter `review/2026-10-15/` werden mitversioniert. Alle Bilder werden vor der Aufnahme vollständig geladen. Die Review-Dateien liegen außerhalb von `public/` und werden nicht als Website ausgeliefert.
 
-Prüfumfang: 320/390/768/1024/1440 px, Überläufe und abgeschnittene Überschriften, Sprungnavigation, Tastatur-Skip-Link, reduzierte Bewegung, deaktivierter Kontakt-CTA, fehlende/externe Ressourcen, Browserfehler, Nutzung ohne JavaScript, Rechtsseiten und axe-Regeln für WCAG A/AA sowie Best Practices. `check:links` prüft erzeugte Seiten, lokale Ressourcen, Anker, doppelte IDs, die fünf Abschnitte und freigegebene Texte gegen den Brief.
+Prüfumfang: 320/390/430/720/768/1024/1440 px, Überläufe und abgeschnittene Überschriften, drei unbeschnittene Hero-Zeilen, Sprungnavigation, Tastatur-Skip-Link, reduzierte Bewegung, vollständiges Entfernen der Kontaktoberfläche, fehlende/externe Ressourcen, Browserfehler, Nutzung ohne JavaScript, Rechtsseiten und axe-Regeln für WCAG A/AA sowie Best Practices. `check:links` prüft erzeugte Seiten, lokale Ressourcen, Anker, doppelte IDs, vier Inhaltsabschnitte mit ruhigem Abschluss sowie freigegebene Hero-/Über-mich-/Thementexte gegen den Brief.
 
 ```sh
 pnpm check:release
@@ -65,7 +65,7 @@ pnpm check:release
 | --- | --- |
 | `src/pages/index.astro` | Fünf Abschnitte, semantisches HTML |
 | `src/data/content.ts` | Wortgetreue Brieftexte, Themen und redaktionelle Konzepte |
-| `src/config/site.ts` | Kontaktdaten, offene Rechtsangaben, Indexierung und Hero-/About-Assets |
+| `src/config/site.ts` | Offene Rechtsangaben einschließlich Impressums-E-Mail, Indexierung und Hero-/About-Assets |
 | `src/styles/global.css` | Farb- und Schriftvariablen, Layout, Breakpoints, Fokus, Reduced Motion |
 | `src/components/` | Header, Footer, Abschnittsüberschriften |
 | `src/layouts/Layout.astro` | Dokument, lokale Schrift, SEO-Metadaten |
@@ -74,7 +74,7 @@ pnpm check:release
 | `scripts/check-*.mjs` | Build-, Browser- und Freigabeprüfungen |
 | `licenses/Manrope-OFL.txt` | Schriftlizenz, zusätzlich unter `public/licenses/` im Build enthalten |
 
-Alle fünf Abschnitte sind umgesetzt: Hero, Über mich, Themenwelten, Selected Signals und Kontakt. Der zusätzliche Navigationspunkt „Gedanken“ aus dem Referenzbild wurde nicht als leerer Zielbereich angelegt; die Navigation führt ausschließlich zu vorhandenen Abschnitten. „Impulse“ bezeichnet die drei redaktionellen Konzepte.
+Die Seite umfasst Hero, Über mich, Themenwelten und Selected Signals, gefolgt von einem ruhigen Abschluss mit „STAY CURIOUS.“. Gemäß Review-Auftrag ersetzt dieser den Kontaktabschnitt aus dem ursprünglichen Brief. Es gibt weder Kontaktbutton noch Kontakt-Navigationspunkt. Der zusätzliche Navigationspunkt „Gedanken“ aus dem Referenzbild wurde nicht als leerer Zielbereich angelegt; die Navigation führt ausschließlich zu vorhandenen Abschnitten. „Impulse“ bezeichnet die drei redaktionellen Konzepte. Der ursprüngliche Brief bleibt als historische Designgrundlage unverändert; die dokumentierte Review-Anweisung hat beim Abschluss Vorrang.
 
 ## Gestaltung und spätere Artwork-Ersetzung
 
@@ -95,7 +95,7 @@ Zum späteren Austausch:
 
 `src/config/site.ts` enthält absichtlich `null` statt erfundener Daten:
 
-- Kontakt-E-Mail. Bis dahin ist der CTA deaktiviert und wird direkt erläutert.
+- Vom Inhaber bestätigte E-Mail für das Impressum. Es gibt keinen Kontakt-CTA auf der Startseite.
 - Verantwortliche Person, vollständige Anschrift, Land und gegebenenfalls weitere erforderliche Impressumsangaben. Nicht zutreffende Punkte erst nach Prüfung entsprechend dokumentieren.
 - Tatsächlicher Hosting-Anbieter/-Standort und Umgang mit Serverprotokollen.
 - Vollständige, für die tatsächliche Verarbeitung geprüfte Datenschutzerklärung.
@@ -118,9 +118,7 @@ Die Indexierungssperre ist keine Zugangskontrolle. Der Draft bleibt lokal und wi
 
 ## Verifikation dieser Iteration
 
-`check`, `lint`, `build` und `check:links` erfolgreich. 4 HTML-Seiten und 67 lokale Link-/Asset-Verweise geprüft. Freigegebener Hero- und Über-mich-Text stimmen mit dem Brief überein.
-
-Edge/Chromium: alle fünf Bildschirmbreiten, Navigation, Reduced Motion und Nutzung ohne JavaScript erfolgreich; keine Browserfehler, keine externen Anfragen und keine axe-Verstöße im geprüften Umfang. Desktop und mobile Screenshots visuell kontrolliert.
+Aktuelle Testergebnisse, Screenshot-Abmessungen, bekannte Einschränkungen und offene Freigabepunkte sind in [REVIEW_HANDOFF.md](REVIEW_HANDOFF.md) festgehalten. Die Maschinenresultate und Screenshot-Prüfsummen liegen in [review/2026-10-15/browser-report.json](review/2026-10-15/browser-report.json).
 
 Der vollständige Build umfasst ungefähr 570 KiB unkomprimiert inklusive sämtlicher Grafiken, Seiten und ausgelieferter Font-Subsets. Das ist keine Messung der initial übertragenen Datenmenge. Die Startseite liefert kein JavaScript aus. Gzip/Brotli und Cache-Header sind später passend zum gewählten Hosting einzurichten.
 
