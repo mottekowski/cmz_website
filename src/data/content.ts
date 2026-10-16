@@ -38,6 +38,60 @@ export const topics = [
 
 export const signals = [
   { title: 'CINDER HAZE.', category: '01 / VISUAL ART', body: 'Abstrakte visuelle Experimente.', image: '/art/cinder.svg' },
-  { title: 'ON REPEAT.', category: '02 / MUSIC', body: 'Musik, Einflüsse und persönliche Notizen.', image: '/art/repeat.svg' },
+  { title: 'ON REPEAT.', category: '02 / MUSIC', body: 'Musik, Einflüsse und persönliche Notizen.', image: '/art/repeat.svg', href: '/on-repeat/' },
   { title: 'AI WORKBENCH.', category: '03 / AI LAB', body: 'KI-Experimente, Werkzeuge und Prototypen.', image: '/art/workbench.svg' },
+];
+
+export interface MusicStory {
+  number: string;
+  category: string;
+  artist: string;
+  track: string;
+  paragraphs: string[];
+  spotifyUrl: string;
+}
+
+export const musicStories: MusicStory[] = [
+  {
+    number: '01',
+    category: 'STILL RESONATING.',
+    artist: 'LINKIN PARK',
+    track: 'IN THE END',
+    paragraphs: [
+      'Manche Songs bleiben, weil sie etwas berühren, das sich nur schwer in Worte fassen lässt.',
+      '„In the End“ ist für mich einer dieser Songs.',
+      'Nicht jeder Weg war einfach. Manche Erfahrungen hinterlassen Spuren, andere begleiten einen ein Leben lang. All das hat mich geprägt und gehört zu dem Menschen, der ich heute bin.',
+      'Mit meinen Stärken. Mit meinen Schwächen.',
+      'Und mit allem dazwischen.',
+    ],
+    spotifyUrl: 'https://open.spotify.com/track/60a0Rd6pjrkxjPbaKzXjfq',
+  },
+  {
+    number: '02',
+    category: 'BEYOND THE BEAT.',
+    artist: 'EMMANUEL TOP',
+    track: 'ACID PHASE',
+    paragraphs: [
+      'Musik braucht keine Worte. Sie kann eine Wucht entfalten, der man sich kaum entziehen kann.',
+      'Ein treibender Rhythmus. Eine Bassline. Wiederholungen, die sich langsam verändern und eine ganz eigene Dynamik entwickeln.',
+      '„Acid Phase“ von Emmanuel Top ist für mich genau das. Wenige Elemente, die sich überlagern, verändern und eine hypnotische Wirkung entfalten.',
+      'Was zunächst einfach erscheint, entwickelt mit jedem Takt eine neue Intensität.',
+      'Musik, die nicht nur gehört, sondern erlebt wird.',
+    ],
+    spotifyUrl: 'https://open.spotify.com/track/3096gFW9ESHwrlesPicxBu',
+  },
+  {
+    number: '03',
+    category: 'NEW FREQUENCIES.',
+    artist: 'ECCA VANDAL',
+    track: 'CRUISING TO SELF SOOTHE',
+    paragraphs: [
+      'Die Energie war zuerst da.',
+      '„Cruising to Self Soothe“ von Ecca Vandal ist roh, direkt und voller Bewegung. Ein Sound, der vom ersten Moment an mitreißt und keine große Erklärung braucht.',
+      'Doch hinter dieser Energie steckt mehr. Der Gedanke, durch Bewegung wieder zu sich selbst zu finden, Unsicherheit zu überwinden und dem eigenen Weg zu vertrauen, gibt dem Song eine weitere Dimension.',
+      'Zuerst hat mich die Musik gepackt. Die Bedeutung dahinter macht das Ganze noch intensiver.',
+      'Eine Entdeckung, die bleibt.',
+    ],
+    spotifyUrl: 'https://open.spotify.com/track/43YEV5eMkQYdkk27WV1Bkv',
+  },
 ];

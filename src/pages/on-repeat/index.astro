@@ -1,0 +1,36 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { musicStories } from '../../data/content';
+---
+<Layout title="ON REPEAT. — Christoph Zink" description="Drei persönliche Musikgeschichten von Christoph Zink – zwischen bleibenden Klängen, hypnotischen Rhythmen und neuen Entdeckungen.">
+  <div id="start" class="on-repeat-page">
+    <Header />
+    <main id="inhalt">
+      <section class="repeat-intro section" aria-labelledby="repeat-title">
+        <div class="wrap">
+          <p class="eyebrow repeat-kicker" lang="en"><span aria-hidden="true"></span>SELECTED SIGNALS / 02</p>
+          <h1 id="repeat-title" lang="en">ON <span>REPEAT.</span></h1>
+          <a class="repeat-return" href="/#impulse">ZURÜCK ZU SELECTED SIGNALS <span aria-hidden="true">↗</span></a>
+        </div>
+      </section>
+      <section class="repeat-stories" aria-label="Musikgeschichten">
+        <div class="wrap">
+          {musicStories.map(story => <article class="music-story" aria-labelledby={`story-${story.number}-title`}>
+            <header class="story-meta">
+              <p class="story-number" aria-hidden="true">{story.number}</p>
+              <p class="eyebrow" lang="en">{story.category}</p>
+              <h2 id={`story-${story.number}-title`} lang="en">{story.artist} <span>—</span> {story.track}</h2>
+            </header>
+            <div class="story-copy">
+              {story.paragraphs.map(paragraph => <p>{paragraph}</p>)}
+              <a class="spotify-link" href={story.spotifyUrl} target="_blank" rel="noopener noreferrer" aria-label={`${story.artist} – ${story.track} auf Spotify anhören`}>LISTEN ON SPOTIFY <span aria-hidden="true">↗</span></a>
+            </div>
+          </article>)}
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </div>
+</Layout>

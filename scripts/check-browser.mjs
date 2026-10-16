@@ -91,6 +91,34 @@ try {
     assert.deepEqual(errors, [], 'Browser errors');
     await context.close();
   }
+  for (const width of [1440, 390]) {
+    const context = await browser.newContext({ viewport: { width, height: 900 }, reducedMotion: 'reduce', deviceScaleFactor: 1 });
+    const page = await context.newPage();
+    const external = [];
+    const errors = [];
+    page.on('request', request => { if (!request.url().startsWith(base)) external.push(request.url()); });
+    page.on('pageerror', error => errors.push(error.message));
+    page.on('response', response => { if (response.status() >= 400) errors.push(`${response.status()} ${response.url()}`); });
+    await page.goto(`${base}/on-repeat/`, { waitUntil: 'networkidle' });
+    await page.evaluate(() => document.fonts.ready);
+    assert.equal(await page.getByRole('heading', { level: 1 }).innerText(), 'ON REPEAT.');
+    assert.equal(await page.locator('.music-story').count(), 3);
+    assert.equal(await page.getByRole('link', { name: /LINKIN PARK.*Spotify/i }).getAttribute('href'), 'https://open.spotify.com/track/60a0Rd6pjrkxjPbaKzXjfq');
+    assert.equal(await page.getByRole('link', { name: /EMMANUEL TOP.*Spotify/i }).getAttribute('href'), 'https://open.spotify.com/track/3096gFW9ESHwrlesPicxBu');
+    assert.equal(await page.getByRole('link', { name: /ECCA VANDAL.*Spotify/i }).getAttribute('href'), 'https://open.spotify.com/track/43YEV5eMkQYdkk27WV1Bkv');
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `${width}: ON REPEAT horizontal overflow`);
+    await page.keyboard.press('Tab');
+    assert.equal(await page.locator('.skip-link').evaluate(element => element === document.activeElement), true);
+    await page.keyboard.press('Enter');
+    assert.equal(new URL(page.url()).hash, '#inhalt');
+    const accessibility = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'best-practice']).analyze();
+    reports.push({ route: '/on-repeat/', width, violations: accessibility.violations.map(({ id, impact, nodes }) => ({ id, impact, elements: nodes.map(node => node.target) })), external, errors });
+    const name = width === 1440 ? 'desktop-1440' : 'mobile-390';
+    await capture(page, `on-repeat-${name}.png`, { fullPage: true });
+    assert.deepEqual(external, [], 'ON REPEAT must not load external resources');
+    assert.deepEqual(errors, [], 'ON REPEAT browser errors');
+    await context.close();
+  }
   const plain = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
   const page = await plain.newPage();
   await page.goto(base);

@@ -37,6 +37,7 @@ for (const file of htmlFiles) {
 }
 const home = await readFile(join(root, 'index.html'), 'utf8');
 const privacy = await readFile(join(root, 'datenschutz/index.html'), 'utf8');
+const onRepeat = await readFile(join(root, 'on-repeat/index.html'), 'utf8');
 const visible = home.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ');
 const brief = await readFile('CREATIVE_BRIEF.md', 'utf8');
 const approved = [...brief.matchAll(/^> (.+)$/gm)].map(match => match[1].trim());
@@ -48,6 +49,8 @@ assert.doesNotMatch(home, /id="kontakt"|#kontakt|mailto:|<button\b|KONTAKT AUFNE
 assert.match(home, /id="closing-title"[^>]*>STAY CURIOUS\.<\/h2>/);
 assert.match(home, /src="\/art\/portrait-amber\.webp"/);
 assert.doesNotMatch(home, /src="\/art\/threshold\.svg"/);
+assert.match(home, /href="\/on-repeat\/"/, 'ON REPEAT card must link to its published route');
+assert.match(home, /ON REPEAT\.<\/h3>[\s\S]*?ENTDECKEN/, 'ON REPEAT card must expose its discovery link');
 const closing = home.match(/<section class="section closing-section"[\s\S]*?<\/section>/)?.[0];
 assert(closing, 'Quiet closing section missing');
 assert.doesNotMatch(closing, /<a\b|<button\b|<form\b/, 'Closing must not contain a CTA');
@@ -58,5 +61,18 @@ if (!site.indexable) assert.match(await readFile(join(root, 'robots.txt'), 'utf8
 assert.doesNotMatch(privacy, /Arbeitsentwurf|OFFEN|Drittländer|Hosting-Standort|Geprüfte Datenschutzerklärung/);
 assert.match(privacy, /Host Europe GmbH/);
 assert.match(privacy, /1&amp;1 Mail &amp; Media GmbH/);
+assert.match(onRepeat, /<title>ON REPEAT\. — Christoph Zink<\/title>/);
+assert.match(onRepeat, /href="\/#impulse"/, 'ON REPEAT needs a return path to Selected Signals');
+assert.equal((onRepeat.match(/<article class="music-story"/g) ?? []).length, 3, 'Expected three music stories');
+assert.equal((onRepeat.match(/target="_blank" rel="noopener noreferrer"/g) ?? []).length, 3, 'Spotify links must open safely in a new tab');
+for (const [artist, track, url, paragraphs] of [
+  ['LINKIN PARK', 'IN THE END', 'https://open.spotify.com/track/60a0Rd6pjrkxjPbaKzXjfq', ['Manche Songs bleiben, weil sie etwas berühren, das sich nur schwer in Worte fassen lässt.', '„In the End“ ist für mich einer dieser Songs.', 'Nicht jeder Weg war einfach. Manche Erfahrungen hinterlassen Spuren, andere begleiten einen ein Leben lang. All das hat mich geprägt und gehört zu dem Menschen, der ich heute bin.', 'Mit meinen Stärken. Mit meinen Schwächen.', 'Und mit allem dazwischen.']],
+  ['EMMANUEL TOP', 'ACID PHASE', 'https://open.spotify.com/track/3096gFW9ESHwrlesPicxBu', ['Musik braucht keine Worte. Sie kann eine Wucht entfalten, der man sich kaum entziehen kann.', 'Ein treibender Rhythmus. Eine Bassline. Wiederholungen, die sich langsam verändern und eine ganz eigene Dynamik entwickeln.', '„Acid Phase“ von Emmanuel Top ist für mich genau das. Wenige Elemente, die sich überlagern, verändern und eine hypnotische Wirkung entfalten.', 'Was zunächst einfach erscheint, entwickelt mit jedem Takt eine neue Intensität.', 'Musik, die nicht nur gehört, sondern erlebt wird.']],
+  ['ECCA VANDAL', 'CRUISING TO SELF SOOTHE', 'https://open.spotify.com/track/43YEV5eMkQYdkk27WV1Bkv', ['Die Energie war zuerst da.', '„Cruising to Self Soothe“ von Ecca Vandal ist roh, direkt und voller Bewegung. Ein Sound, der vom ersten Moment an mitreißt und keine große Erklärung braucht.', 'Doch hinter dieser Energie steckt mehr. Der Gedanke, durch Bewegung wieder zu sich selbst zu finden, Unsicherheit zu überwinden und dem eigenen Weg zu vertrauen, gibt dem Song eine weitere Dimension.', 'Zuerst hat mich die Musik gepackt. Die Bedeutung dahinter macht das Ganze noch intensiver.', 'Eine Entdeckung, die bleibt.']],
+]) {
+  assert(onRepeat.includes(`${artist} <span>—</span> ${track}`), `${artist} track heading missing`);
+  assert(onRepeat.includes(`href="${url}"`), `${artist} Spotify URL missing`);
+  for (const paragraph of paragraphs) assert(onRepeat.includes(paragraph), `Approved ON REPEAT copy missing: ${paragraph}`);
+}
 console.log(`PASS: ${htmlFiles.length} HTML pages, ${links} local links/assets, four content sections plus closing, approved hero/about/topic copy, draft indexing and no contact CTA.`);
 console.log(`Output: ${files.length} files; no reference images or remote media included.`);

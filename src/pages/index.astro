@@ -70,7 +70,7 @@ import { artwork } from '../config/site';
                 <p class="eyebrow" lang="en">{signal.category}</p>
                 <h3 lang="en">{signal.title}</h3>
                 <p>{signal.body}</p>
-                <p class="coming-later"><span aria-hidden="true"></span>Konzept · Inhalte folgen</p>
+                {signal.href ? <a class="signal-link" href={signal.href} aria-label="ON REPEAT. entdecken"><span aria-hidden="true"></span>ENTDECKEN <span aria-hidden="true">↗</span></a> : <p class="coming-later"><span aria-hidden="true"></span>Konzept · Inhalte folgen</p>}
               </div>
             </article>)}
           </div>
