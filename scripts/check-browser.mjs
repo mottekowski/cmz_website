@@ -61,6 +61,15 @@ try {
     assert.equal(await page.getByRole('navigation', { name: 'Hauptnavigation' }).getByRole('link').count(), 4);
     assert.equal(await page.locator('.closing-section h2').innerText(), 'STAY CURIOUS.');
     assert.equal(await page.locator('.closing-section a, .closing-section button').count(), 0);
+    const aboutArt = page.locator('.about-art img');
+    assert.equal(await aboutArt.getAttribute('src'), '/art/portrait-amber.webp');
+    const aboutGeometry = await page.locator('.about-grid').evaluate(grid => {
+      const copy = grid.querySelector('.about-copy').getBoundingClientRect();
+      const art = grid.querySelector('.about-art').getBoundingClientRect();
+      return { copyBottom: copy.bottom, artTop: art.top, artWidth: art.width };
+    });
+    if (width > 720) assert(aboutGeometry.artWidth >= 280 && aboutGeometry.artWidth <= 320, `${width}: portrait must stay subtle on desktop`);
+    else assert(aboutGeometry.artTop >= aboutGeometry.copyBottom && aboutGeometry.artWidth <= 270, `${width}: portrait must follow copy on mobile`);
     // Load every below-the-fold image before the full-page design captures.
     for (const img of await page.locator('main img').all()) await img.scrollIntoViewIfNeeded();
     await page.evaluate(async () => {

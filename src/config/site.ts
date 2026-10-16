@@ -71,5 +71,5 @@ export function validatePrivacyForBuild(production: boolean, config = site) {
  */
 export const artwork = {
   hero: '/art/hero-atmosphere.svg',
-  about: '/art/threshold.svg',
+  about: '/art/portrait-amber.webp',
 };

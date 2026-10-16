@@ -46,6 +46,8 @@ assert.equal((home.match(/<section\b/g) ?? []).length, 5, 'Expected four content
 assert.doesNotMatch(visible, /(?:^|[.!?]\s+)Ich\s/);
 assert.doesNotMatch(home, /id="kontakt"|#kontakt|mailto:|<button\b|KONTAKT AUFNEHMEN|STAY CONNECTED\.|Kontaktadresse folgt/);
 assert.match(home, /id="closing-title"[^>]*>STAY CURIOUS\.<\/h2>/);
+assert.match(home, /src="\/art\/portrait-amber\.webp"/);
+assert.doesNotMatch(home, /src="\/art\/threshold\.svg"/);
 const closing = home.match(/<section class="section closing-section"[\s\S]*?<\/section>/)?.[0];
 assert(closing, 'Quiet closing section missing');
 assert.doesNotMatch(closing, /<a\b|<button\b|<form\b/, 'Closing must not contain a CTA');
