@@ -48,6 +48,23 @@ export function validateImprintForBuild(production: boolean, config = site) {
   }
 }
 
+/** A production-approved privacy page needs verified operator and log details. */
+export function validatePrivacyForBuild(production: boolean, config = site) {
+  if (!production || !config.publicationApproved) return;
+  const required = [
+    ['CMZ_LEGAL_NAME', config.legal.responsibleName],
+    ['CMZ_LEGAL_STREET', config.legal.streetAndNumber],
+    ['CMZ_LEGAL_CITY', config.legal.postalCodeAndCity],
+    ['CMZ_LEGAL_EMAIL', config.email],
+    ['CMZ_SERVER_LOG_POLICY', config.legal.serverLogPolicy],
+  ];
+  const missing = required.filter(([, value]) => !value?.trim()).map(([key]) => key);
+  if (missing.length || !config.legal.privacyReviewed) {
+    const review = config.legal.privacyReviewed ? [] : ['Datenschutzerklärung rechtlich prüfen und freigeben'];
+    throw new Error(`Datenschutzerklärung unvollständig: ${[...missing, ...review].join(', ')}.`);
+  }
+}
+
 /** ASSET REPLACEMENT: replace paths with approved, text-free local artwork.
  * Keep decorative images empty-alt; preserve composition and text contrast.
  * Never use the design screenshots in references/ as production assets.

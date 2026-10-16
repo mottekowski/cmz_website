@@ -15,6 +15,7 @@
     "check": "astro check",
     "lint": "eslint .",
     "check:links": "node scripts/check-build.mjs",
+    "check:privacy": "node scripts/check-privacy.mjs",
     "check:browser": "node scripts/check-browser.mjs",
     "check:release": "node scripts/check-release.mjs"
   },

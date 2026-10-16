@@ -36,6 +36,7 @@ for (const file of htmlFiles) {
   }
 }
 const home = await readFile(join(root, 'index.html'), 'utf8');
+const privacy = await readFile(join(root, 'datenschutz/index.html'), 'utf8');
 const visible = home.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ');
 const brief = await readFile('CREATIVE_BRIEF.md', 'utf8');
 const approved = [...brief.matchAll(/^> (.+)$/gm)].map(match => match[1].trim());
@@ -52,5 +53,8 @@ const approvedTopicCopy = [...brief.matchAll(/German body: `([^`]+)`/g)].map(mat
 assert.equal(approvedTopicCopy.length, 4);
 for (const copy of approvedTopicCopy) assert(visible.includes(copy), `Topic copy missing: ${copy}`);
 if (!site.indexable) assert.match(await readFile(join(root, 'robots.txt'), 'utf8'), /Disallow: \//);
+assert.doesNotMatch(privacy, /Arbeitsentwurf|OFFEN|Drittländer|Hosting-Standort|Geprüfte Datenschutzerklärung/);
+assert.match(privacy, /Host Europe GmbH/);
+assert.match(privacy, /1&amp;1 Mail &amp; Media GmbH/);
 console.log(`PASS: ${htmlFiles.length} HTML pages, ${links} local links/assets, four content sections plus closing, approved hero/about/topic copy, draft indexing and no contact CTA.`);
 console.log(`Output: ${files.length} files; no reference images or remote media included.`);

@@ -4,7 +4,7 @@ import { readSiteConfig } from './site-config.mjs';
 const site = await readSiteConfig();
 const missing = [];
 
-if (site.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(site.email)) {
+if (!site.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(site.email)) {
   missing.push('CMZ_LEGAL_EMAIL (gültige Impressums-E-Mail)');
 }
 
@@ -12,8 +12,6 @@ const required = {
   responsibleName: 'CMZ_LEGAL_NAME',
   streetAndNumber: 'CMZ_LEGAL_STREET',
   postalCodeAndCity: 'CMZ_LEGAL_CITY',
-  hostingProvider: 'CMZ_HOSTING_PROVIDER',
-  hostingLocation: 'CMZ_HOSTING_LOCATION',
   serverLogPolicy: 'CMZ_SERVER_LOG_POLICY',
 };
 for (const [field, variable] of Object.entries(required)) {

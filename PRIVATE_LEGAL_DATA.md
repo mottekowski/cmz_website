@@ -6,7 +6,7 @@
 
 1. `.env.example` lokal nach `.env.private` kopieren. `.env.private` ist durch `.gitignore` vom Commit ausgeschlossen.
 2. Die erforderlichen Werte **nur in dieser lokalen Datei oder in einer geschützten Build-Umgebung** eintragen – niemals in Quellcode, Commit-Nachrichten, GitHub-Issues oder Review-Screenshots.
-3. Angaben zum tatsächlichen Host-Europe-Paket, Hosting-Standort und Serverlogs (einschließlich Speicherfristen) anhand des Vertrages prüfen. `CMZ_SERVER_LOG_POLICY` erst nach dieser Prüfung ausfüllen.
+3. Die tatsächliche Host-Europe-Produktvariante und die zugehörige Protokollaufbewahrung anhand des Vertrags prüfen. `CMZ_SERVER_LOG_POLICY` erst nach dieser Prüfung ausfüllen.
 4. Den späteren Build mit der privaten Umgebung starten (Node.js 24 bzw. >= 22.18):
 
 ```powershell
@@ -23,11 +23,8 @@ Die Umgebungsvariablen können alternativ direkt im privaten Build-Prozess geset
 | `CMZ_LEGAL_NAME` | Name der verantwortlichen Person |
 | `CMZ_LEGAL_STREET` | Straße und Hausnummer |
 | `CMZ_LEGAL_CITY` | Postleitzahl und Ort |
-| `CMZ_LEGAL_COUNTRY` | Land |
 | `CMZ_LEGAL_EMAIL` | E-Mail-Adresse für das Impressum |
-| `CMZ_HOSTING_PROVIDER` | Tatsächlicher Hoster |
-| `CMZ_HOSTING_LOCATION` | Tatsächlicher Hosting-Standort |
-| `CMZ_SERVER_LOG_POLICY` | Bestätigte Arten und Aufbewahrungszeiten von Serverlogs |
+| `CMZ_SERVER_LOG_POLICY` | Bestätigte Produktvariante, Arten und Aufbewahrungszeiten von Serverlogs |
 
 `CMZ_LEGAL_EXTRA` und `CMZ_PRIVACY_ADDITIONAL` sind optionale Ergänzungen **nach rechtlicher Prüfung**, keine Pflichtfelder der technischen Konfiguration.
 

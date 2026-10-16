@@ -2,47 +2,37 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { site } from '../config/site';
+import { site, validatePrivacyForBuild } from '../config/site';
 
 const legal = site.legal;
-const pending = 'OFFEN — vor Veröffentlichung ergänzen';
+const responsible = [legal.responsibleName, legal.streetAndNumber, legal.postalCodeAndCity].filter(Boolean);
+validatePrivacyForBuild(import.meta.env.PROD);
 ---
 <Layout title="Datenschutz — Christoph Zink" noindex>
   <div id="start"><Header /></div>
   <main id="inhalt" class="legal-page wrap">
-    <p class="eyebrow">RECHTLICHE INFORMATIONEN</p>
     <h1>Datenschutzerklärung</h1>
-    <p class="legal-notice">Arbeitsentwurf – noch nicht zur Veröffentlichung geeignet. Hosting, Protokollierung, Speicherfristen und Kontaktdaten müssen anhand des tatsächlichen Betriebs geprüft und ergänzt werden.</p>
 
-    <h2>1. Verantwortlicher</h2>
-    <p>{legal.responsibleName ?? site.name}<br />
-      {legal.streetAndNumber ?? pending}<br />
-      {legal.postalCodeAndCity ?? pending}<br />
-      {legal.country ?? pending}<br />
-      E-Mail: {site.email ?? pending}</p>
+    <h2>Verantwortlicher</h2>
+    {responsible.length > 0 && <p>{responsible.map((line, index) => <>{index > 0 && <br />}{line}</>)}</p>}
+    {site.email && <p>E-Mail: <a href={`mailto:${site.email}`}>{site.email}</a></p>}
 
-    <h2>2. Aufruf der Website und Serverprotokolle</h2>
-    <p>Beim Aufruf der Website werden zur Auslieferung der angeforderten Inhalte technisch notwendige Daten verarbeitet. Dazu kann insbesondere die IP-Adresse gehören; abhängig von der Konfiguration des Hosting-Dienstes können auch Zeitpunkt des Aufrufs, angeforderte Adresse, Browserinformationen und technische Statusdaten protokolliert werden.</p>
-    <p>Die Verarbeitung dient der sicheren, stabilen und funktionsfähigen Bereitstellung der Website. Soweit personenbezogene Daten hierfür auf Grundlage berechtigter Interessen verarbeitet werden, ist Art. 6 Abs. 1 lit. f DSGVO die Rechtsgrundlage. Das berechtigte Interesse liegt in einem sicheren und zuverlässigen Websitebetrieb.</p>
-    <dl>
-      <div><dt>Hosting-Anbieter</dt><dd>{legal.hostingProvider ?? pending}</dd></div>
-      <div><dt>Hosting-Standort</dt><dd>{legal.hostingLocation ?? pending}</dd></div>
-      <div><dt>Serverprotokolle, Kategorien und Löschfristen</dt><dd class="preserve-lines">{legal.serverLogPolicy ?? pending}</dd></div>
-    </dl>
-    <p>Ob und in welchem Umfang der Hosting-Dienst Daten an weitere Empfänger oder in Drittländer übermittelt, muss vor Veröffentlichung anhand der tatsächlichen Hosting-Vereinbarung geprüft und hier konkret beschrieben werden.</p>
+    <h2>Hosting und technische Zugriffsdaten</h2>
+    <p>Die Website wird bei Host Europe GmbH, c/o Spaces, Gertrudenstraße 30–36, 50667 Köln, Deutschland gehostet.</p>
+    <p>Beim Aufruf verarbeitet der Hosting-Anbieter die IP-Adresse sowie die für die Auslieferung und den sicheren Betrieb erforderlichen Zugriffsdaten. Dazu gehören insbesondere Zeitpunkt und Adresse des Aufrufs, angeforderte Inhalte, übertragene Datenmenge, Statuscodes sowie Angaben zu Browser und Betriebssystem. Die Verarbeitung dient der Bereitstellung, Funktionsfähigkeit und Sicherheit der Website und erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO.</p>
+    <p>Für die Webserver-Logs ist die anonymisierte Protokollierung aktiviert. Für klassisches WebHosting dokumentiert Host Europe eine Vorhaltezeit von bis zu 14 Tagen für Access-Logs und bis zu 7 Tagen für Error-Logs.</p>
+    {legal.serverLogPolicy && <p class="preserve-lines">{legal.serverLogPolicy}</p>}
 
-    <p>Beim eingesetzten Host-Europe-WebHosting wurde die Einstellung „Anonymisiert“ für Webserver-Logs aktiviert. Laut Host Europe wird dabei bei IPv4-Adressen das letzte Oktett durch 0 ersetzt; bei IPv6-Adressen werden nur die ersten beiden Blöcke protokolliert. Diese Umstellung wirkt nicht rückwirkend auf ältere Logeinträge. Access-Logdateien sind beim Anbieter bis zu 14 Tage und Error-Logdateien bis zu 7 Tage abrufbar. Fehlerprotokolle können abhängig von der technischen Konfiguration weitere Verbindungsdaten enthalten; verbindliche Einzelheiten sind anhand des Hosting-Vertrags zu bestätigen.</p>
+    <h2>Kontakt per E-Mail</h2>
+    <p>Bei einer freiwilligen Kontaktaufnahme per E-Mail verarbeitet der Verantwortliche die Absenderadresse, den Nachrichteninhalt und weitere mitgeteilte Daten zur Bearbeitung und Beantwortung der Nachricht. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO für die allgemeine persönliche Kommunikation. Die Daten werden grundsätzlich nur so lange gespeichert, wie sie hierfür oder für zulässige weitere Zwecke erforderlich sind; gesetzliche Aufbewahrungspflichten bleiben unberührt.</p>
+    <p>Der E-Mail-Dienst wird von 1&amp;1 Mail &amp; Media GmbH, Zweigniederlassung Karlsruhe, Brauerstraße 48, 76135 Karlsruhe betrieben.</p>
 
-    <h2>3. Cookies, Analyse und externe Inhalte</h2>
-    <p>Nach dem aktuellen technischen Stand verwendet diese Website im eigenen Anwendungscode keine Tracking- oder Analysewerkzeuge, keine Cookies und keine eingebundenen externen Schrift-, Video- oder Social-Media-Dienste. Schriftarten und Illustrationen werden lokal bereitgestellt. Bei späteren Änderungen der Website wird diese Erklärung entsprechend aktualisiert.</p>
+    <h2>Cookies, Analyse und externe Inhalte</h2>
+    <p>Diese Website verwendet keine eigenen Tracking- oder Analysewerkzeuge, keine Cookies und keine vergleichbaren nicht erforderlichen Speicherzugriffe. Sie bindet keine externen Medien oder Drittanbieter-Schriftarten ein. Schriftarten und Grafiken werden lokal ausgeliefert. Normale Links zu externen Seiten sind keine eingebetteten Inhalte.</p>
 
-    <h2>4. Rechte betroffener Personen</h2>
-    <p>Nach Maßgabe der gesetzlichen Voraussetzungen bestehen insbesondere Rechte auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) und Widerspruch gegen Verarbeitungen auf Grundlage berechtigter Interessen (Art. 21). Entsprechende Anfragen können an die oben genannte Kontaktadresse gerichtet werden.</p>
-    <p>Zudem besteht das Recht, Beschwerde bei einer zuständigen Datenschutzaufsichtsbehörde einzureichen (Art. 77 DSGVO).</p>
-
-    <h2>5. Aktualisierung dieser Erklärung</h2>
-    <p>Bei Änderungen der technischen Funktionen, des Hostings oder der Datenverarbeitung wird die Datenschutzerklärung angepasst.</p>
-    {legal.privacyText && <div><h2>Weitere Informationen</h2><p class="preserve-lines">{legal.privacyText}</p></div>}
+    <h2>Ihre Rechte</h2>
+    <p>Betroffene Personen haben nach Maßgabe der gesetzlichen Voraussetzungen das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Widerspruch sowie Datenübertragbarkeit, soweit deren Voraussetzungen erfüllt sind.</p>
+    <p>Außerdem besteht ein Beschwerderecht bei der <a href="https://www.ldi.nrw.de/kontakt/ihre-beschwerde">Landesbeauftragten für Datenschutz und Informationsfreiheit Nordrhein-Westfalen</a>.</p>
 
     <a class="text-link" href="/">ZURÜCK ZUR STARTSEITE</a>
   </main>
