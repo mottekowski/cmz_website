@@ -2,8 +2,11 @@
 import { readSiteConfig } from './site-config.mjs';
 const site = await readSiteConfig();
 const missing = [];
-if (!site.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(site.email)) missing.push('Gültige, vom Inhaber freigegebene E-Mail-Adresse für das Impressum');
-for (const [field, value] of Object.entries(site.legal)) if (!value) missing.push(`site.legal.${field}`);
+if (site.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(site.email)) missing.push('Die konfigurierte E-Mail-Adresse für das Impressum ist ungültig');
+const optionalImprintFields = new Set(['country', 'additionalRequiredInformation']);
+for (const [field, value] of Object.entries(site.legal)) {
+  if (!optionalImprintFields.has(field) && !value) missing.push(`site.legal.${field}`);
+}
 if (!site.publicationApproved) missing.push('Ausdrückliches OK des Inhabers zur Veröffentlichung');
 if (!site.indexable) missing.push('Bewusste Freigabe der Indexierung nach Abschluss der Prüfung');
 if (missing.length) {

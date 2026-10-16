@@ -93,7 +93,9 @@ Zum späteren Austausch:
 
 ## Offene Angaben vor einer Veröffentlichung
 
-`src/config/site.ts` enthält absichtlich `null` statt erfundener Daten:
+Name, Straße/Hausnummer, Postleitzahl/Ort und E-Mail werden beim Build aus der lokal ignorierten `.env.private` gelesen (`CMZ_LEGAL_NAME`, `CMZ_LEGAL_STREET`, `CMZ_LEGAL_CITY`, `CMZ_LEGAL_EMAIL`). Die Datei niemals committen oder auf den Webserver kopieren. Die angegebenen Werte erscheinen bestimmungsgemäß im öffentlichen Impressum. Nach Änderungen neu bauen; Browserberichte mit persönlichen Angaben ausschließlich unter `.qa/` ablegen.
+
+Ohne diese Konfiguration sowie für weiterhin offene Angaben verwendet `src/config/site.ts` absichtlich `null` statt erfundener Daten:
 
 - Vom Inhaber bestätigte E-Mail für das Impressum. Es gibt keinen Kontakt-CTA auf der Startseite.
 - Verantwortliche Person, vollständige Anschrift, Land und gegebenenfalls weitere erforderliche Impressumsangaben. Nicht zutreffende Punkte erst nach Prüfung entsprechend dokumentieren.

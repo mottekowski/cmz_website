@@ -2,24 +2,21 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { site } from '../config/site';
-const fields = [
-  ['Verantwortliche Person', site.legal.responsibleName],
-  ['Straße und Hausnummer', site.legal.streetAndNumber],
-  ['Postleitzahl und Ort', site.legal.postalCodeAndCity],
-  ['Land', site.legal.country],
-  ['E-Mail', site.email],
-  ['Weitere erforderliche Angaben', site.legal.additionalRequiredInformation],
-];
+import { site, validateImprintForBuild } from '../config/site';
+validateImprintForBuild(import.meta.env.PROD);
+const address = [site.legal.responsibleName, site.legal.streetAndNumber, site.legal.postalCodeAndCity].filter(Boolean);
 ---
 <Layout title="Impressum — Christoph Zink" noindex>
   <div id="start"><Header /></div>
   <main id="inhalt" class="legal-page wrap">
-    <p class="eyebrow">ENTWURF</p>
     <h1>Impressum</h1>
-    <p class="legal-notice">Nicht veröffentlichungsfähig. Die Angaben müssen vom Websiteinhaber ergänzt und vor Veröffentlichung geprüft werden.</p>
-    <dl>{fields.map(([label, value]) => <div><dt>{label}</dt><dd>{value ?? 'OFFEN — Angabe des Websiteinhabers erforderlich'}</dd></div>)}</dl>
+    <h2>Angaben gemäß § 18 Abs. 1 MStV</h2>
+    {address.length > 0 && <p>{address.map((line, index) => <>{index > 0 && <br />}{line}</>)}</p>}
+    {site.email && <>
+      <h2>Kontakt</h2>
+      <p>E-Mail: <a href={`mailto:${site.email}`}>{site.email}</a></p>
+    </>}
     <a class="text-link" href="/">ZURÜCK ZUR STARTSEITE</a>
   </main>
-  <Footer />
+  <Footer showDraftNote={false} />
 </Layout>

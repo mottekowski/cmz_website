@@ -6,11 +6,11 @@ export const site = {
   description: 'Strukturen, Verbindungen und neue Perspektiven. Der persönliche digitale Raum von Christoph Zink zwischen IT-Architektur, künstlicher Intelligenz, Musik und visueller Kunst.',
   indexable: false,
   publicationApproved: false,
-  email: null as string | null, // Owner-supplied legal contact for the imprint; no homepage contact CTA.
+  email: process.env.CMZ_LEGAL_EMAIL?.trim() || null, // Build-time value from ignored .env.private; imprint only.
   legal: {
-    responsibleName: null as string | null,
-    streetAndNumber: null as string | null,
-    postalCodeAndCity: null as string | null,
+    responsibleName: process.env.CMZ_LEGAL_NAME?.trim() || null,
+    streetAndNumber: process.env.CMZ_LEGAL_STREET?.trim() || null,
+    postalCodeAndCity: process.env.CMZ_LEGAL_CITY?.trim() || null,
     country: null as string | null,
     additionalRequiredInformation: null as string | null,
     imprintReviewed: false,
@@ -21,6 +21,20 @@ export const site = {
     privacyReviewed: false,
   },
 };
+
+/** Presence check only; the address's actual deliverability needs owner review. */
+export function validateImprintForBuild(production: boolean, config = site) {
+  if (!production || !config.publicationApproved) return;
+  const required = [
+    ['CMZ_LEGAL_NAME', config.legal.responsibleName],
+    ['CMZ_LEGAL_STREET', config.legal.streetAndNumber],
+    ['CMZ_LEGAL_CITY', config.legal.postalCodeAndCity],
+  ];
+  const missing = required.filter(([, value]) => !value?.trim()).map(([key]) => key);
+  if (missing.length) {
+    throw new Error(`Impressum unvollständig: Für den freigegebenen Produktionsbuild fehlen Name oder Anschrift. Lokale Build-Variablen ergänzen: ${missing.join(', ')}.`);
+  }
+}
 
 /** ASSET REPLACEMENT: replace paths with approved, text-free local artwork.
  * Keep decorative images empty-alt; preserve composition and text contrast.

@@ -1,5 +1,7 @@
 ---
 import { site } from '../config/site';
+interface Props { showDraftNote?: boolean }
+const { showDraftNote = true } = Astro.props;
 ---
 <footer>
 <div class="site-footer wrap">
@@ -11,5 +13,5 @@ import { site } from '../config/site';
   </nav>
   <a class="back-to-top" href="#start" aria-label="Zurück nach oben">↑</a>
 </div>
-{!site.indexable && <p class="draft-note wrap">Entwurf · Rechtsangaben offen · Keine finale Veröffentlichungsfreigabe</p>}
+{showDraftNote && !site.indexable && <p class="draft-note wrap">Entwurf · Rechtsangaben offen · Keine finale Veröffentlichungsfreigabe</p>}
 </footer>
