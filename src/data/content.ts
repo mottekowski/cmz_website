@@ -25,8 +25,8 @@ export const topics = [
     image: '/art/lab.svg',
   },
   {
-    id: 'frequencies', title: 'FREQUENCIES.', subtitle: 'Beyond words. Beyond logic.', category: '03 / EXPRESSION',
-    body: 'Elektronische Musik, Klangwelten und visuelle Kunst. Manches muss nicht analysiert werden, um seine Wirkung zu entfalten. Rhythmus, Atmosphäre und Emotionen eröffnen eine andere Form der Wahrnehmung.',
+    id: 'expression', title: 'EXPRESSION.', subtitle: 'Not everything needs an explanation.', category: '03 / EXPRESSION',
+    body: 'Abstraktion, visuelle Experimente und Formen, die eine eigene Stimmung erzeugen. Manches darf offen bleiben – als Impuls, als Bild, als Ausdruck kreativer Neugier.',
     image: '/art/frequencies.svg',
   },
   {
