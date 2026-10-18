@@ -1,0 +1,18 @@
+# Apache: canonical HTTPS address and the generated static error page.
+RewriteEngine On
+RewriteCond %{HTTPS} !=on [OR]
+RewriteCond %{HTTP_HOST} !^www\.christoph-zink\.de$ [NC]
+RewriteRule ^ https://www.christoph-zink.de%{REQUEST_URI} [R=301,L]
+
+ErrorDocument 404 /404.html
+
+<IfModule mod_mime.c>
+  AddType image/webp .webp
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  # Public draft only. Remove after explicit approval of the final release.
+  Header always set X-Robots-Tag "noindex, nofollow"
+</IfModule>

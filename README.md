@@ -127,3 +127,11 @@ Aktuelle Testergebnisse, Screenshot-Abmessungen, bekannte Einschränkungen und o
 Der vollständige Build umfasst ungefähr 570 KiB unkomprimiert inklusive sämtlicher Grafiken, Seiten und ausgelieferter Font-Subsets. Das ist keine Messung der initial übertragenen Datenmenge. Die Startseite liefert kein JavaScript aus. Gzip/Brotli und Cache-Header sind später passend zum gewählten Hosting einzurichten.
 
 Grenzen: kein vollständiges manuelles WCAG-Audit, kein Screenreader-/Safari-/Firefox-/Realgeräte-Test und keine Messung auf gedrosselter Mobilverbindung. Keine rechtliche oder finale Produktionsfreigabe. Der gesondert autorisierte Entwurfs-Upload ist in [DEPLOYMENT.md](DEPLOYMENT.md) dokumentiert.
+
+## Sonic Experiments
+
+`/frequencies/` ist der erweiterbare Bereich für eigene Klangexperimente. Die Einträge liegen als `sonicExperiments` in `src/data/content.ts`; das wiederverwendbare `SonicExperiment.astro` erzeugt Player, Metadaten und die Web-Audio-Visualisierung.
+
+Der Player nutzt ein einzelnes HTML-Audioelement. Erst nach einer Play-Interaktion wird dafür ein `AudioContext` mit einem `MediaElementAudioSourceNode` und `AnalyserNode` eingerichtet. Die Canvas-Orbits werten Bass-, Mitten- und Höhenbereiche des tatsächlich wiedergegebenen Signals aus; ohne Wiedergabe bleiben sie als ruhige Ambient-Struktur sichtbar. `ResizeObserver`, `IntersectionObserver`, begrenzte Pixelratio und `prefers-reduced-motion` reduzieren den Aufwand. Bei deaktivierter Visualisierung oder fehlender Canvas-/Web-Audio-Unterstützung bleibt der Player funktionsfähig.
+
+`public/audio/orbit-of-defiance.mp3` ist die aus dem bereitgestellten WAV erzeugte Webversion: Stereo, 44,1 kHz, 192 kbit/s, Dauer 4:03. Das Original-WAV wird nicht ausgeliefert.

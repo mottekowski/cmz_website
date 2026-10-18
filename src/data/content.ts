@@ -39,7 +39,29 @@ export const topics = [
 export const signals = [
   { title: 'CINDER HAZE.', category: '01 / VISUAL ART', body: 'Abstrakte visuelle Experimente.', image: '/art/cinder.svg' },
   { title: 'ON REPEAT.', category: '02 / MUSIC', body: 'Musik, Einflüsse und persönliche Notizen.', image: '/art/repeat.svg', href: '/on-repeat/' },
-  { title: 'AI WORKBENCH.', category: '03 / AI LAB', body: 'KI-Experimente, Werkzeuge und Prototypen.', image: '/art/workbench.svg' },
+  { title: 'FREQUENCIES.', category: '03 / SONIC EXPERIMENTS', body: 'Audiovisuelle Klangexperimente.', image: '/art/frequencies.svg', href: '/frequencies/' },
+];
+
+export interface SonicExperiment {
+  id: string;
+  title: string;
+  tool: string;
+  category: string;
+  audioSrc: string;
+  description: string;
+  emerged: string;
+}
+
+export const sonicExperiments: SonicExperiment[] = [
+  {
+    id: '001',
+    title: 'Orbit of Defiance',
+    tool: 'Strudel',
+    category: 'Reactive Soundscape',
+    audioSrc: '/audio/orbit-of-defiance.mp3',
+    description: 'Ein erster Versuch mit Strudel. Kein klassischer Track-Release, sondern ein Experiment zwischen Struktur, Impuls und kontrollierter Unruhe.',
+    emerged: 'Entstanden aus Neugier: Was passiert, wenn Rhythmus nicht nur gespielt, sondern programmiert wird? Aus wiederkehrenden Mustern entwickeln sich Bewegung, Spannung und neue Strukturen.',
+  },
 ];
 
 export interface MusicStory {

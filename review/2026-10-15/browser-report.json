@@ -202,14 +202,14 @@
     {
       "file": "review/2026-10-15/homepage-desktop-1440.png",
       "width": 1440,
-      "height": 3921,
-      "sha256": "ccd52f29793ed2f038bb30d660f4dda50c83a90ce097f016eda0e46af63997d4"
+      "height": 3879,
+      "sha256": "8f3072756202428355c6f9c24d61646c2d7b8307c8f515c86008418976b5c323"
     },
     {
       "file": "review/2026-10-15/hero-desktop-1440.png",
       "width": 1440,
       "height": 900,
-      "sha256": "5b24bcd49c4c657d22e541f8ab18ca618764bee361afec0e7944afc930f0772c"
+      "sha256": "8660e36575b9c8653d83cfc0dcfc48406969299b2f6fd64f47afb29b5cb13d2c"
     },
     {
       "file": "review/2026-10-15/topics-desktop-1440.png",
@@ -220,26 +220,26 @@
     {
       "file": "review/2026-10-15/homepage-mobile-390.png",
       "width": 390,
-      "height": 6084,
-      "sha256": "050320a279e579a32f1401874c1637e33e23829603eeac2f5dd9e11930c07062"
+      "height": 6075,
+      "sha256": "557300b545838c1fc09350f2d3c0d072d7314dd17fb9e753b2b5f0398a7e2c65"
     },
     {
       "file": "review/2026-10-15/hero-mobile-390.png",
       "width": 390,
       "height": 844,
-      "sha256": "35a597bfcada33905d937a59d1b4b2cf656c6547e32f7dfea8b459bf719c3425"
+      "sha256": "3d88e98bf169e3805376f539e114a39539dcbef4759eb4fc42bab224fad7a489"
     },
     {
       "file": "review/2026-10-15/on-repeat-desktop-1440.png",
       "width": 1440,
-      "height": 2785,
-      "sha256": "351ef68e7294760ebfa954984da0ad02bb167dbf48003a6df3fda65b2e1b9b64"
+      "height": 2743,
+      "sha256": "099e2ec8c60a2918cb3638df50362360eb5c3feb32b45aa5557c893c0319af78"
     },
     {
       "file": "review/2026-10-15/on-repeat-mobile-390.png",
       "width": 390,
-      "height": 2766,
-      "sha256": "b4bc5f83fbfa216565885ec282ba298fb6bfdcf82e722905132863d6013df561"
+      "height": 2758,
+      "sha256": "7b383f62a702d733558a4daef20c1e4d03aa6311a0a952ffe89b46717b6d732c"
     }
   ]
 }

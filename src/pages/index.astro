@@ -4,9 +4,29 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import { hero, about, topics, signals } from '../data/content';
-import { artwork } from '../config/site';
+import { artwork, site, structuredDataIds } from '../config/site';
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': structuredDataIds.website,
+      name: site.name,
+      url: `${site.url}/`,
+      inLanguage: site.language,
+      creator: { '@id': structuredDataIds.person },
+    },
+    {
+      '@type': 'Person',
+      '@id': structuredDataIds.person,
+      name: 'Christoph Zink',
+      url: `${site.url}/`,
+      inLanguage: site.language,
+    },
+  ],
+};
 ---
-<Layout>
+<Layout structuredData={structuredData}>
   <div class="hero-shell" id="start">
     <img class="hero-art" src={artwork.hero} alt="" width="1600" height="1000" fetchpriority="high" />
     <Header home />

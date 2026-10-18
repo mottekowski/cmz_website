@@ -1,0 +1,10 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SonicExperiment from '../../components/SonicExperiment.astro';
+import { sonicExperiments } from '../../data/content';
+---
+<Layout title="FREQUENCIES. — Christoph Zink" description="Sonic Experiments von Christoph Zink: reaktive Klangräume zwischen Struktur, Impuls und kontrollierter Unruhe.">
+  <div id="start" class="frequencies-page"><Header /><main id="inhalt"><section class="frequencies-intro section" aria-labelledby="frequencies-title"><div class="wrap"><p class="eyebrow repeat-kicker" lang="en"><span aria-hidden="true"></span>FREQUENCIES / SONIC EXPERIMENTS</p><h1 id="frequencies-title" lang="en">SIGNAL <span>IN MOTION.</span></h1><p>Eigene Klangexperimente zwischen Code, Rhythmus und visueller Resonanz.</p><a class="repeat-return" href="/#impulse">ZURÜCK ZU SELECTED SIGNALS <span aria-hidden="true">↗</span></a></div></section><section class="experiments-section" aria-label="Sonic Experiments"><div class="wrap">{sonicExperiments.map(experiment => <SonicExperiment experiment={experiment} />)}</div></section></main><Footer /></div>
+</Layout>

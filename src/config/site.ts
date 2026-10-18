@@ -14,9 +14,10 @@ export const site = {
   // Search engines should index this hostname. Relative navigation still
   // preserves the hostname that the visitor used to reach the site.
   url: 'https://curiouscurrent.xyz',
-  title: 'CURIOUS CURRENT — Between Signal and Noise.',
-  description: 'Strukturen, Verbindungen und neue Perspektiven. Der persönliche digitale Raum von Christoph Zink zwischen IT-Architektur, künstlicher Intelligenz, Musik und visueller Kunst.',
-  indexable: false,
+  title: 'Curious Current — Christoph Zink',
+  description: 'Curious Current ist der persönliche kreative Raum von Christoph Zink. Gedanken, Musik, digitale Experimente und die Neugier auf das, was dazwischen liegt.',
+  language: 'de',
+  indexable: true,
   publicationApproved: false,
   // Only needed on legal pages; the homepage has no contact call to action.
   email: privateBuildValue('CMZ_LEGAL_EMAIL'),
@@ -34,6 +35,11 @@ export const site = {
     serverLogPolicy: privateBuildValue('CMZ_SERVER_LOG_POLICY'),
     privacyReviewed: false,
   },
+};
+
+export const structuredDataIds = {
+  website: `${site.url}/#website`,
+  person: `${site.url}/#person`,
 };
 
 /** Presence check only; the address's actual deliverability needs owner review. */

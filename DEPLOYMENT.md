@@ -8,7 +8,7 @@ Der nächste Upload ist ausschließlich für **https://curiouscurrent.xyz/** vor
 
 ## Ziel und Übertragung
 
-- FileZilla-Site: **HE SFTP** (despite its name, the saved profile is FTPS on
+- FileZilla-Site: **CmZ Website** (the saved profile is FTPS on
   port 21, with explicit TLS).
 - Host: `wp1163914.server-he.de`, Port 21, FTP mit explizitem TLS; Zertifikatprüfung aktiv, Datenkanal ebenfalls verschlüsselt.
 - Ausschließliches FTP-Ziel: `/wwwcmz`. `/wwwcmz2` darf weder beschrieben noch gelöscht werden.

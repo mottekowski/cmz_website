@@ -11,7 +11,7 @@ async function walk(dir) {
   return (await Promise.all(entries.map(entry => entry.isDirectory() ? walk(join(dir, entry.name)) : join(dir, entry.name)))).flat();
 }
 const files = await walk(root);
-const htmlFiles = files.filter(file => file.endsWith('.html'));
+const htmlFiles = files.filter(file => file.endsWith('.html') && !relative(root, file).startsWith('google'));
 let links = 0;
 for (const file of htmlFiles) {
   const html = await readFile(file, 'utf8');
@@ -57,11 +57,29 @@ assert.doesNotMatch(closing, /<a\b|<button\b|<form\b/, 'Closing must not contain
 const approvedTopicCopy = [...brief.matchAll(/German body: `([^`]+)`/g)].map(match => match[1]);
 assert.equal(approvedTopicCopy.length, 4);
 for (const copy of approvedTopicCopy) assert(visible.includes(copy), `Topic copy missing: ${copy}`);
-if (!site.indexable) assert.match(await readFile(join(root, 'robots.txt'), 'utf8'), /Disallow: \//);
+const robots = await readFile(join(root, 'robots.txt'), 'utf8');
+const sitemap = await readFile(join(root, 'sitemap.xml'), 'utf8');
+if (site.indexable) {
+  assert.match(home, /<title>Curious Current — Christoph Zink<\/title>/);
+  assert.match(home, /name="description" content="Curious Current ist der persönliche kreative Raum von Christoph Zink\./);
+  assert.match(home, /rel="canonical" href="https:\/\/curiouscurrent\.xyz\/"/);
+  assert.match(onRepeat, /rel="canonical" href="https:\/\/curiouscurrent\.xyz\/on-repeat\/"/);
+  assert.match(home, /"@type":"WebSite"/);
+  assert.match(home, /"@id":"https:\/\/curiouscurrent\.xyz\/#website"/);
+  assert.match(home, /"@type":"Person"/);
+  assert.match(home, /"name":"Christoph Zink"/);
+  assert.match(home, /An independent space by Christoph Zink\./);
+  assert.match(robots, /Allow: \//);
+  assert.match(robots, /Sitemap: https:\/\/curiouscurrent\.xyz\/sitemap\.xml/);
+  assert.match(sitemap, /https:\/\/curiouscurrent\.xyz\//);
+  assert.match(sitemap, /https:\/\/curiouscurrent\.xyz\/on-repeat\//);
+} else {
+  assert.match(robots, /Disallow: \//);
+}
 assert.doesNotMatch(privacy, /Arbeitsentwurf|OFFEN|Drittländer|Hosting-Standort|Geprüfte Datenschutzerklärung/);
 assert.match(privacy, /Host Europe GmbH/);
 assert.match(privacy, /1&amp;1 Mail &amp; Media GmbH/);
-assert.match(onRepeat, /<title>ON REPEAT\. — CURIOUS CURRENT<\/title>/);
+assert.match(onRepeat, /<title>ON REPEAT — Curious Current<\/title>/);
 assert.match(onRepeat, /href="\/#impulse"/, 'ON REPEAT needs a return path to Selected Signals');
 assert.equal((onRepeat.match(/<article class="music-story"/g) ?? []).length, 3, 'Expected three music stories');
 assert.equal((onRepeat.match(/target="_blank" rel="noopener noreferrer"/g) ?? []).length, 3, 'Spotify links must open safely in a new tab');
@@ -74,5 +92,5 @@ for (const [artist, track, url, paragraphs] of [
   assert(onRepeat.includes(`href="${url}"`), `${artist} Spotify URL missing`);
   for (const paragraph of paragraphs) assert(onRepeat.includes(paragraph), `Approved ON REPEAT copy missing: ${paragraph}`);
 }
-console.log(`PASS: ${htmlFiles.length} HTML pages, ${links} local links/assets, four content sections plus closing, approved hero/about/topic copy, draft indexing and no contact CTA.`);
+console.log(`PASS: ${htmlFiles.length} HTML pages, ${links} local links/assets, four content sections plus closing, SEO metadata and no contact CTA.`);
 console.log(`Output: ${files.length} files; no reference images or remote media included.`);

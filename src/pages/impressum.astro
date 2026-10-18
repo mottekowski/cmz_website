@@ -6,7 +6,7 @@ import { site, validateImprintForBuild } from '../config/site';
 validateImprintForBuild(import.meta.env.PROD);
 const address = [site.legal.responsibleName, site.legal.streetAndNumber, site.legal.postalCodeAndCity].filter(Boolean);
 ---
-<Layout title="Impressum — CURIOUS CURRENT" noindex>
+<Layout title="Impressum — Curious Current" description="Impressum von Curious Current." noindex>
   <div id="start"><Header /></div>
   <main id="inhalt" class="legal-page wrap">
     <h1>Impressum</h1>

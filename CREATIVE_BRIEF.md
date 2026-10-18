@@ -7,9 +7,11 @@
 **Date:** 2026-10-15
 
 ## 1. Goal
+
 Build a distinctive, thoughtful, fast, accessible personal website that shows the way Christoph thinks, explores, and creates. Not a conventional CV, not a consultant sales pitch, not a generic agency portfolio, not a tech-themed visual overload.
 
 ## 2. Approved creative decisions — DO NOT silently change
+
 - Dramaturgy: calm, dark and atmospheric with controlled energy.
 - Design family: Quiet Voltage, Atmospheric Abstract, Editorial Minimalism, Warm Industrial.
 - Palette: Graphite `#0B0C0D`, Charcoal `#1E1F21`, muted gray `#686672`, Off-White `#E8E8E4`, Burnt Amber `#D97706` (secondary lighter amber when necessary for contrast).
@@ -21,7 +23,9 @@ Build a distinctive, thoughtful, fast, accessible personal website that shows th
 - Avoid unverified stock/web image usage. Provided images are AI-generated design references, not general licensed stock imagery.
 
 ## 3. Image references and priorities
+
 Files in `/references/`:
+
 1. `01_moodboard_burnt_amber.png` — color and mood direction.
 2. `02_hero_approved.png` — **approved hero composition and typographic direction**, primary design reference.
 3. `03_homepage_first_draft.png` — **inspiration for section order and overall page rhythm**, *not* authority for typography or exact text; image generation changed copy and used serif type.
@@ -31,6 +35,7 @@ Files in `/references/`:
 ## 4. Landing page structure and content
 
 ### 01. HERO — APPROVED
+
 Micro-label: `STRUCTURE / CURIOSITY / EXPRESSION`
 
 Headline: `BETWEEN SIGNAL AND NOISE.`
@@ -44,7 +49,8 @@ Topic micro-row: `IT-ARCHITEKTUR / KI / MUSIK / VISUELLE KUNST`.
 
 Visual: immersive graphitic darkness, abstract smoke/particles/ambient light on the right, subtle copper/amber flares and technical orbital lines. Text on the left. Maintain strong contrast and comfortable whitespace. On mobile, place composition behind/below text without reducing readability.
 
-### 02. ABOUT — BEYOND THE SIGNAL.
+### 02. ABOUT — BEYOND THE SIGNAL
+
 Use the following copy with the **approved professional-focus paragraph exactly as written**:
 
 > Komplexität verstehen. Zusammenhänge erkennen. Aus einzelnen Elementen etwas Neues entstehen lassen.
@@ -59,7 +65,8 @@ Use the following copy with the **approved professional-focus paragraph exactly 
 
 Optional pull quote if it fits: `Nicht alles braucht ein Ziel. Manches darf einfach faszinieren.`
 
-### 03. TOPIC WORLDS — SAME CURIOSITY. DIFFERENT FIELDS.
+### 03. TOPIC WORLDS — SAME CURIOSITY. DIFFERENT FIELDS
+
 Four distinct, cohesive cards/sections (content can be shortened responsively but not filled with invented achievements):
 
 - `SYSTEMS.` — `Finding order in complexity.` — IT landscapes, infrastructure, systemic connections. German body: `Komplexe IT-Landschaften sind mehr als die Summe ihrer Komponenten. Entscheidend sind die Verbindungen dazwischen – und die Frage, wie aus Strukturen tragfähige Lösungen entstehen.`
@@ -67,20 +74,24 @@ Four distinct, cohesive cards/sections (content can be shortened responsively bu
 - `FREQUENCIES.` — `Beyond words. Beyond logic.` — electronic music, sound worlds, visual expression. German body: `Elektronische Musik, Klangwelten und visuelle Kunst. Manches muss nicht analysiert werden, um seine Wirkung zu entfalten. Rhythmus, Atmosphäre und Emotionen eröffnen eine andere Form der Wahrnehmung.`
 - `PERSPECTIVES.` — `Question the obvious.` — thoughts, observations, new viewpoints. German body: `Beobachtungen, Gedanken und neue Blickwinkel. Nicht jede Frage braucht sofort eine Antwort. Manchmal liegt der eigentliche Wert darin, Gewohntes zu hinterfragen und eine andere Perspektive einzunehmen.`
 
-### 04. SELECTED SIGNALS.
+### 04. SELECTED SIGNALS
+
 Three **editorial/concept** tiles. Do not invent live pages, working playlist URLs or completed products; use honest 'coming later' handling and only link actual pages:
+
 - `CINDER HAZE.` — visual abstract experiments.
 - `ON REPEAT.` — curated music/influences and short commentary (link only with verified destinations).
 - `AI WORKBENCH.` — AI experimentation, tools, learning, prototypes.
 
 These are editorial concepts; do not create fake case studies or fictitious results. Source material will be expanded later.
 
-### 05. CONTACT — STAY CURIOUS. STAY CONNECTED.
+### 05. CONTACT — STAY CURIOUS. STAY CONNECTED
+
 Suggested body copy: `Gute Gespräche beginnen oft mit einer interessanten Frage. Ob Technologie, Kreativität oder einfach ein neuer Gedanke – der Austausch ist willkommen.`
 Contact CTA: `KONTAKT AUFNEHMEN`. A functional mailto requires owner-supplied email; until provided, keep an explicit configurable placeholder, not a made-up email address.
 Footer: `CHRISTOPH ZINK`, Impressum and Datenschutz (accurate owner-supplied information, not fabricated legal text).
 
 ## 5. Interaction/UX & implementation
+
 - Mobile-first and fully responsive; desktop hero should feel cinematic without making mobile cramped.
 - Reduced motion preference must be respected; modest animation only (slow abstract ambient motion, fades) and no intrusive scroll-jacking or parallax dependence.
 - Fast-loading optimized visuals, lazy-load below-the-fold media, semantic HTML, keyboard navigation, visible focus, logical heading hierarchy and color contrast checks.
@@ -90,6 +101,7 @@ Footer: `CHRISTOPH ZINK`, Impressum and Datenschutz (accurate owner-supplied inf
 - Version-control friendly structure; clean readable code, maintainable components, content separate from layout when useful.
 
 ## 6. Suggested workflow for Codex
+
 1. Inspect current repository/working directory; do not overwrite existing files blindly.
 2. Recommend a lean stack suitable for a mostly static personal site (Astro or comparable). Briefly explain selection and obtain any truly required configuration from the operator. If repo already exists, prefer its conventions.
 3. Build a first functional homepage and temporary local preview, implementing approved HERO and ABOUT copy first, then topics, projects and contact.
@@ -97,6 +109,7 @@ Footer: `CHRISTOPH ZINK`, Impressum and Datenschutz (accurate owner-supplied inf
 5. Do not deploy to production without explicit user approval and proper access arrangements.
 
 ## 7. Acceptance criteria
+
 - Clearly resembles approved hero reference in **layout and atmosphere**, but is a live accessible webpage, not an image.
 - Every German sentence avoids beginning with `Ich`.
 - The hero and professional-focus paragraph match approved text.

@@ -2,12 +2,18 @@
 import '@fontsource-variable/manrope';
 import '../styles/global.css';
 import { site } from '../config/site';
-interface Props { title?: string; description?: string; noindex?: boolean }
-const { title = site.title, description = site.description, noindex = false } = Astro.props;
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+  structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
+}
+const { title = site.title, description = site.description, noindex = false, structuredData } = Astro.props;
 const canonical = new URL(Astro.url.pathname, site.url).href;
+const jsonLd = structuredData && JSON.stringify(structuredData).replace(/</g, '\\u003c');
 ---
 <!doctype html>
-<html lang="de">
+<html lang={site.language}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -22,6 +28,10 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
     <title>{title}</title>
   </head>
   <body>

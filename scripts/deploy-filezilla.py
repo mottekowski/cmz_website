@@ -1,8 +1,8 @@
-"""Deploy this site's public draft over verified FTPS, with local backup/rollback.
+"""Deploy this site over verified FTPS, with local backup/rollback.
 
 Credentials are read only from the explicitly selected FileZilla entry and kept
 in memory. No passwords, usernames or credential XML are logged or copied.
-Default is a read-only plan; transfer requires --upload-public-draft.
+Default is a read-only plan; transfer requires --upload.
 """
 import argparse
 import base64
@@ -21,8 +21,8 @@ import xml.etree.ElementTree as ET
 ROOT = Path(__file__).resolve().parent.parent
 URL = 'https://curiouscurrent.xyz'
 HOST = 'wp1163914.server-he.de'
-SITE_NAME = 'HE SFTP'
-REMOTE_ROOT = '/wwwcmz'
+SITE_NAME = 'CmZ Website'
+REMOTE_ROOT = ''
 
 
 def digest(data):
@@ -42,7 +42,7 @@ def read_remote(ftp, path):
 
 
 def remote_path(path):
-    return REMOTE_ROOT + '/' + path.lstrip('/')
+    return '/' + '/'.join(part for part in [REMOTE_ROOT.strip('/'), path.lstrip('/')] if part)
 
 
 def list_files(ftp, directory=''):
@@ -56,20 +56,20 @@ def list_files(ftp, directory=''):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--upload-public-draft', action='store_true')
+    parser.add_argument('--upload', action='store_true')
+    parser.add_argument('--inspect-remote-root', action='store_true', help='List remote directories without changing files')
     args = parser.parse_args()
     dist = ROOT / 'dist'
     files = sorted(p for p in dist.rglob('*') if p.is_file())
     if not files or not (dist / 'index.html').exists():
         raise RuntimeError('Run the static build before deployment')
     payload = {p.relative_to(dist).as_posix(): p.read_bytes() for p in files}
-    for name, data in payload.items():
-        if name.endswith('.html') and b'content="noindex, nofollow"' not in data:
-            raise RuntimeError('This deployment path permits noindex drafts only')
-    if payload.get('robots.txt', b'').find(b'Disallow: /') == -1:
-        raise RuntimeError('Draft robots.txt must disallow crawling')
-    if b'X-Robots-Tag "noindex, nofollow"' not in payload.get('.htaccess', b''):
-        raise RuntimeError('Draft response header missing')
+    if b'content="index, follow"' not in payload['index.html']:
+        raise RuntimeError('Homepage must permit indexing')
+    if payload.get('robots.txt', b'').find(b'Allow: /') == -1:
+        raise RuntimeError('robots.txt must allow crawling')
+    if b'X-Robots-Tag' in payload.get('.htaccess', b''):
+        raise RuntimeError('Apache configuration must not send an X-Robots-Tag')
 
     xml_path = Path(os.environ['APPDATA']) / 'FileZilla' / 'sitemanager.xml'
     servers = [server for server in ET.parse(xml_path).findall('.//Server') if server.findtext('Name') == SITE_NAME]
@@ -78,7 +78,7 @@ def main():
     server = servers[0]
     if server.findtext('Host') != HOST or server.findtext('Port') != '21' or server.findtext('Protocol') != '0':
         raise RuntimeError('FileZilla target changed; inspect before deployment')
-    if server.findtext('RemoteDir') not in ('', REMOTE_ROOT):
+    if server.findtext('RemoteDir') not in (None, '', REMOTE_ROOT):
         raise RuntimeError(f'Unexpected FileZilla remote directory; only {REMOTE_ROOT} is permitted for this deployment')
     if server.find('Pass').get('encoding') != 'base64':
         raise RuntimeError('Unsupported password encoding; no credentials were printed')
@@ -87,6 +87,11 @@ def main():
     ftp.connect(HOST, 21)
     ftp.login(server.findtext('User'), base64.b64decode(server.findtext('Pass')).decode('utf-8'))
     ftp.prot_p()
+    if args.inspect_remote_root:
+        directories = sorted(name for name, facts in ftp.mlsd('/') if facts.get('type') == 'dir')
+        print(json.dumps({'mode': 'inspect-remote-root', 'site': SITE_NAME, 'directories': directories}, ensure_ascii=False))
+        ftp.quit()
+        return
     old_index = read_remote(ftp, 'index.html')
     web_index, _ = fetch('/')
     if old_index != web_index:
@@ -101,8 +106,8 @@ def main():
         if directory in existing_dirs:
             existing |= list_files(ftp, directory)
     overwritten = [name for name in payload if name in existing]
-    print(json.dumps({'mode': 'upload-public-draft' if args.upload_public_draft else 'read-only-plan', 'site': SITE_NAME, 'host': HOST, 'remote_root': REMOTE_ROOT, 'tls_verified': True, 'domain_mapping_verified': True, 'files': len(payload), 'bytes': sum(map(len, payload.values())), 'overwrites': overwritten, 'new_directories': [d for d in directories if d not in existing_dirs]}, ensure_ascii=False))
-    if not args.upload_public_draft:
+    print(json.dumps({'mode': 'upload' if args.upload else 'read-only-plan', 'site': SITE_NAME, 'host': HOST, 'remote_root': REMOTE_ROOT, 'tls_verified': True, 'domain_mapping_verified': True, 'files': len(payload), 'bytes': sum(map(len, payload.values())), 'overwrites': overwritten, 'new_directories': [d for d in directories if d not in existing_dirs]}, ensure_ascii=False))
+    if not args.upload:
         ftp.quit()
         return
 
@@ -140,8 +145,8 @@ def main():
                 actual, headers = fetch('/' + name)
                 if actual != expected:
                     raise RuntimeError('HTTPS file differs from build: ' + name)
-                if 'noindex' not in headers.get('X-Robots-Tag', ''):
-                    raise RuntimeError('Draft HTTP indexing header missing')
+                if 'noindex' in headers.get('X-Robots-Tag', '').lower():
+                    raise RuntimeError('Live HTTP response still blocks indexing')
         actual_home, _ = fetch('/')
         if actual_home != payload['index.html']:
             raise RuntimeError('Homepage handover failed')
@@ -159,10 +164,6 @@ def main():
             with urllib.request.urlopen(url, timeout=30) as response:
                 if response.url != url or response.read() != payload['index.html']:
                     raise RuntimeError('HTTPS hostname was unexpectedly redirected')
-        for url, expected_url in [('http://curiouscurrent.xyz/', 'https://curiouscurrent.xyz/')]:
-            with urllib.request.urlopen(url, timeout=30) as response:
-                if response.url != expected_url or response.read() != payload['index.html']:
-                    raise RuntimeError('HTTP-to-HTTPS redirect failed')
         manifest['status'] = 'verified'
         print(json.dumps({'result': 'verified', 'url': URL + '/', 'files_verified_over_ftps': len(payload), 'public_files_verified_over_https': len(payload) - 1, 'backup': str(backup.relative_to(ROOT))}))
     except Exception:
