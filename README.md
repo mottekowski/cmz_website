@@ -1,4 +1,4 @@
-# Christoph Zink — Between Signal and Noise.
+# CURIOUS CURRENT — Between Signal and Noise.
 
 Öffentlicher Entwurf mit Review-Korrekturen vom 15.10.2026. Der Inhaber hat den Upload trotz offener Rechtsangaben ausdrücklich freigegeben. **Keine finale Produktionsfreigabe.** Live-Adresse, Backup und Upload-Verfahren: [DEPLOYMENT.md](DEPLOYMENT.md). Design-Abnahmeunterlagen: [REVIEW_HANDOFF.md](REVIEW_HANDOFF.md).
 
@@ -107,7 +107,7 @@ Ohne diese Konfiguration sowie für weiterhin offene Angaben verwendet `src/conf
 
 Die vorhandenen Rechtsseiten sind sichtbar markierte Arbeitsstände und **keine fertigen Rechtstexte**. Nach Ergänzung der Angaben müssen auch die Entwurfskennzeichnung und Darstellung der Rechtsseiten bewusst überarbeitet werden. Kein Automatismus versteckt offene Angaben.
 
-`indexable: false` setzt `noindex, nofollow`, `robots.txt` sperrt Crawling, die Sitemap ist leer. Die Canonicals und OG-Titel/-Beschreibung sind bereits für `https://www.christoph-zink.de` vorbereitet. Ein OG-Vorschaubild bleibt bis zur Auswahl eines geeigneten finalen Assets offen. Erst nach Prüfung und Freigabe die Indexierung aktivieren; dann enthält die Sitemap die Startseite. Rechtsseiten bleiben standardmäßig `noindex`.
+`indexable: false` setzt `noindex, nofollow`, `robots.txt` sperrt Crawling, die Sitemap ist leer. Die Canonicals und OG-Titel/-Beschreibung sind für die SEO-primäre Domain `https://curiouscurrent.xyz` vorbereitet. Ein OG-Vorschaubild bleibt bis zur Auswahl eines geeigneten finalen Assets offen. Erst nach Prüfung und Freigabe die Indexierung aktivieren; dann enthält die Sitemap die Startseite. Rechtsseiten bleiben standardmäßig `noindex`.
 
 Die Indexierungssperre ist keine Zugangskontrolle. Der Entwurf ist aufgrund der späteren ausdrücklichen Entscheidung des Inhabers öffentlich erreichbar; die offenen Rechtsangaben und Entwurfskennzeichnungen bleiben erhalten. Zusätzlich sendet Apache über `public/.htaccess` einen `X-Robots-Tag` gegen Indexierung. Eine spätere Indexierungsfreigabe erfordert auch die Anpassung dieses Headers.
 

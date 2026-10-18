@@ -19,9 +19,10 @@ import uuid
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parent.parent
-URL = 'https://www.christoph-zink.de'
+URL = 'https://curiouscurrent.xyz'
 HOST = 'wp1163914.server-he.de'
-SITE_NAME = 'CmZ Website'
+SITE_NAME = 'HE SFTP'
+REMOTE_ROOT = '/wwwcmz'
 
 
 def digest(data):
@@ -36,16 +37,20 @@ def fetch(path):
 
 def read_remote(ftp, path):
     result = io.BytesIO()
-    ftp.retrbinary('RETR ' + path, result.write)
+    ftp.retrbinary('RETR ' + remote_path(path), result.write)
     return result.getvalue()
 
 
-def list_files(ftp, directory='/'):
+def remote_path(path):
+    return REMOTE_ROOT + '/' + path.lstrip('/')
+
+
+def list_files(ftp, directory=''):
     files = set()
     # Inspect only directories receiving this build, not unrelated hosting data.
-    for name, facts in ftp.mlsd(directory):
+    for name, facts in ftp.mlsd(remote_path(directory)):
         if facts.get('type') == 'file':
-            files.add(directory.rstrip('/') + '/' + name)
+            files.add('/'.join(part for part in [directory.strip('/'), name] if part))
     return files
 
 
@@ -73,8 +78,8 @@ def main():
     server = servers[0]
     if server.findtext('Host') != HOST or server.findtext('Port') != '21' or server.findtext('Protocol') != '0':
         raise RuntimeError('FileZilla target changed; inspect before deployment')
-    if server.findtext('RemoteDir'):
-        raise RuntimeError('Remote directory changed; inspect before deployment')
+    if server.findtext('RemoteDir') not in ('', REMOTE_ROOT):
+        raise RuntimeError(f'Unexpected FileZilla remote directory; only {REMOTE_ROOT} is permitted for this deployment')
     if server.find('Pass').get('encoding') != 'base64':
         raise RuntimeError('Unsupported password encoding; no credentials were printed')
 
@@ -82,23 +87,21 @@ def main():
     ftp.connect(HOST, 21)
     ftp.login(server.findtext('User'), base64.b64decode(server.findtext('Pass')).decode('utf-8'))
     ftp.prot_p()
-    if ftp.pwd() != '/':
-        raise RuntimeError('Unexpected FTP root')
-    old_index = read_remote(ftp, '/index.html')
+    old_index = read_remote(ftp, 'index.html')
     web_index, _ = fetch('/')
     if old_index != web_index:
         raise RuntimeError('FTP target does not match the website root')
 
     directories = sorted({str(Path(name).parent).replace('\\', '/') for name in payload} - {'.'})
     existing = list_files(ftp)
-    existing_dirs = {name for name, facts in ftp.mlsd('/') if facts.get('type') == 'dir'}
+    existing_dirs = {name for name, facts in ftp.mlsd(REMOTE_ROOT) if facts.get('type') == 'dir'}
     for directory in directories:
         if '/' in directory:
             raise RuntimeError('Unexpected nested output directory; inspect build')
         if directory in existing_dirs:
-            existing |= list_files(ftp, '/' + directory)
-    overwritten = [name for name in payload if '/' + name in existing]
-    print(json.dumps({'mode': 'upload-public-draft' if args.upload_public_draft else 'read-only-plan', 'site': SITE_NAME, 'host': HOST, 'remote_root': '/', 'tls_verified': True, 'domain_mapping_verified': True, 'files': len(payload), 'bytes': sum(map(len, payload.values())), 'overwrites': overwritten, 'new_directories': [d for d in directories if d not in existing_dirs]}, ensure_ascii=False))
+            existing |= list_files(ftp, directory)
+    overwritten = [name for name in payload if name in existing]
+    print(json.dumps({'mode': 'upload-public-draft' if args.upload_public_draft else 'read-only-plan', 'site': SITE_NAME, 'host': HOST, 'remote_root': REMOTE_ROOT, 'tls_verified': True, 'domain_mapping_verified': True, 'files': len(payload), 'bytes': sum(map(len, payload.values())), 'overwrites': overwritten, 'new_directories': [d for d in directories if d not in existing_dirs]}, ensure_ascii=False))
     if not args.upload_public_draft:
         ftp.quit()
         return
@@ -109,7 +112,7 @@ def main():
     for name in overwritten:
         destination = backup / 'previous' / name
         destination.parent.mkdir(parents=True, exist_ok=True)
-        destination.write_bytes(read_remote(ftp, '/' + name))
+        destination.write_bytes(read_remote(ftp, name))
     manifest = {'id': deployment_id, 'url': URL, 'overwritten': overwritten, 'files': {name: digest(data) for name, data in payload.items()}, 'status': 'backed-up'}
     report = backup / 'manifest.json'
     report.write_text(json.dumps(manifest, indent=2), encoding='utf-8')
@@ -121,17 +124,17 @@ def main():
     try:
         for directory in directories:
             if directory not in existing_dirs:
-                ftp.mkd('/' + directory)
+                ftp.mkd(remote_path(directory))
         for name in order:
-            temporary = '/' + name + '.upload-' + deployment_id
-            ftp.storbinary('STOR ' + temporary, io.BytesIO(payload[name]))
+            temporary = name + '.upload-' + deployment_id
+            ftp.storbinary('STOR ' + remote_path(temporary), io.BytesIO(payload[name]))
             if read_remote(ftp, temporary) != payload[name]:
                 raise RuntimeError('Uploaded bytes failed verification')
-            ftp.rename(temporary, '/' + name)
+            ftp.rename(remote_path(temporary), remote_path(name))
             temporary = None
             changed.append(name)
         for name, expected in payload.items():
-            if read_remote(ftp, '/' + name) != expected:
+            if read_remote(ftp, name) != expected:
                 raise RuntimeError('Remote file differs from build: ' + name)
             if name != '.htaccess':
                 actual, headers = fetch('/' + name)
@@ -152,10 +155,14 @@ def main():
         except urllib.error.HTTPError as error:
             if error.code != 404 or error.read() != payload['404.html']:
                 raise RuntimeError('Custom 404 page failed') from None
-        for url in ['http://www.christoph-zink.de/', 'https://christoph-zink.de/']:
+        for url in ['https://curiouscurrent.xyz/']:
             with urllib.request.urlopen(url, timeout=30) as response:
-                if response.url != URL + '/' or response.read() != payload['index.html']:
-                    raise RuntimeError('Canonical HTTPS redirect failed')
+                if response.url != url or response.read() != payload['index.html']:
+                    raise RuntimeError('HTTPS hostname was unexpectedly redirected')
+        for url, expected_url in [('http://curiouscurrent.xyz/', 'https://curiouscurrent.xyz/')]:
+            with urllib.request.urlopen(url, timeout=30) as response:
+                if response.url != expected_url or response.read() != payload['index.html']:
+                    raise RuntimeError('HTTP-to-HTTPS redirect failed')
         manifest['status'] = 'verified'
         print(json.dumps({'result': 'verified', 'url': URL + '/', 'files_verified_over_ftps': len(payload), 'public_files_verified_over_https': len(payload) - 1, 'backup': str(backup.relative_to(ROOT))}))
     except Exception:
@@ -163,15 +170,15 @@ def main():
         rollback_errors = []
         if temporary:
             try:
-                ftp.delete(temporary)
+                ftp.delete(remote_path(temporary))
             except ftplib.all_errors:
                 pass
         for name in reversed(changed):
             try:
                 if name in overwritten:
-                    ftp.storbinary('STOR /' + name, io.BytesIO((backup / 'previous' / name).read_bytes()))
+                    ftp.storbinary('STOR ' + remote_path(name), io.BytesIO((backup / 'previous' / name).read_bytes()))
                 else:
-                    ftp.delete('/' + name)
+                    ftp.delete(remote_path(name))
             except ftplib.all_errors:
                 rollback_errors.append(name)
         manifest['status'] = 'rollback-incomplete' if rollback_errors else 'rolled-back'

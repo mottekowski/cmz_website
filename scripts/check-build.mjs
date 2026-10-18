@@ -61,7 +61,7 @@ if (!site.indexable) assert.match(await readFile(join(root, 'robots.txt'), 'utf8
 assert.doesNotMatch(privacy, /Arbeitsentwurf|OFFEN|Drittländer|Hosting-Standort|Geprüfte Datenschutzerklärung/);
 assert.match(privacy, /Host Europe GmbH/);
 assert.match(privacy, /1&amp;1 Mail &amp; Media GmbH/);
-assert.match(onRepeat, /<title>ON REPEAT\. — Christoph Zink<\/title>/);
+assert.match(onRepeat, /<title>ON REPEAT\. — CURIOUS CURRENT<\/title>/);
 assert.match(onRepeat, /href="\/#impulse"/, 'ON REPEAT needs a return path to Selected Signals');
 assert.equal((onRepeat.match(/<article class="music-story"/g) ?? []).length, 3, 'Expected three music stories');
 assert.equal((onRepeat.match(/target="_blank" rel="noopener noreferrer"/g) ?? []).length, 3, 'Spotify links must open safely in a new tab');

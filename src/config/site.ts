@@ -10,9 +10,11 @@ function privateBuildValue(variable: string): string | null {
 }
 
 export const site = {
-  name: 'Christoph Zink',
-  url: 'https://www.christoph-zink.de',
-  title: 'Christoph Zink — Between Signal and Noise.',
+  name: 'CURIOUS CURRENT',
+  // Search engines should index this hostname. Relative navigation still
+  // preserves the hostname that the visitor used to reach the site.
+  url: 'https://curiouscurrent.xyz',
+  title: 'CURIOUS CURRENT — Between Signal and Noise.',
   description: 'Strukturen, Verbindungen und neue Perspektiven. Der persönliche digitale Raum von Christoph Zink zwischen IT-Architektur, künstlicher Intelligenz, Musik und visueller Kunst.',
   indexable: false,
   publicationApproved: false,

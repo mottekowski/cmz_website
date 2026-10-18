@@ -1,21 +1,10 @@
-# Apache: HTTPS for every supported hostname and the generated static error page.
-# Do not redirect between curiouscurrent.xyz and christoph-zink.de: both serve
-# the same build. The canonical URL in the HTML declares the SEO preference.
+# Apache: HTTPS for the sole production hostname and the generated static error page.
 RewriteEngine On
-# The historical www hostname is retained only as an alias of the legacy
-# hostname; it is not part of the requested dual-domain setup.
-RewriteCond %{HTTP_HOST} ^www\.christoph-zink\.de$ [NC]
-RewriteRule ^ https://christoph-zink.de%{REQUEST_URI} [R=301,L,NE]
-
-# Only the two supported apex hostnames are upgraded to HTTPS. Keeping the
-# targets explicit avoids reflecting an arbitrary Host header in a redirect.
+# Keep the target explicit: do not reflect arbitrary Host headers and do not
+# add redirects for legacy or www hostnames.
 RewriteCond %{HTTPS} !=on
 RewriteCond %{HTTP_HOST} ^curiouscurrent\.xyz$ [NC]
 RewriteRule ^ https://curiouscurrent.xyz%{REQUEST_URI} [R=301,L,NE]
-
-RewriteCond %{HTTPS} !=on
-RewriteCond %{HTTP_HOST} ^christoph-zink\.de$ [NC]
-RewriteRule ^ https://christoph-zink.de%{REQUEST_URI} [R=301,L,NE]
 
 ErrorDocument 404 /404.html
 

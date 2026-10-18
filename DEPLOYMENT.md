@@ -1,16 +1,17 @@
 # Deployment — öffentlicher Entwurf
 
-## Status am 15.10.2026
+## Status der Domainmigration am 18.10.2026
 
 Der Websiteinhaber hat ausdrücklich bestätigt: **„Entwurf trotzdem öffentlich hochladen“**, einschließlich sichtbarer Entwurfskennzeichnung und gesperrter Indexierung trotz offener Rechtsangaben.
 
-Der Entwurf ist unter **https://www.christoph-zink.de/** bereitgestellt. Dies ist keine Freigabe einer fertigen Produktionsfassung. `publicationApproved: false` und `indexable: false` bleiben unverändert. Impressum und Datenschutz enthalten weiterhin die gekennzeichneten offenen Angaben; es wurden keine Angaben erfunden.
+Der nächste Upload ist ausschließlich für **https://curiouscurrent.xyz/** vorgesehen. Er bleibt ausgesetzt, bis das Zertifikat für diesen Host über IPv4 und IPv6 ohne `SEC_E_WRONG_PRINCIPAL` ausgeliefert wird. Dies ist keine Freigabe einer fertigen Produktionsfassung. `publicationApproved: false` und `indexable: false` bleiben unverändert.
 
 ## Ziel und Übertragung
 
-- FileZilla-Site: **CmZ Website**.
+- FileZilla-Site: **HE SFTP** (despite its name, the saved profile is FTPS on
+  port 21, with explicit TLS).
 - Host: `wp1163914.server-he.de`, Port 21, FTP mit explizitem TLS; Zertifikatprüfung aktiv, Datenkanal ebenfalls verschlüsselt.
-- FTP-Ziel: `/`. Die Zuordnung wurde vor dem Upload durch bytegleichen Vergleich der vorhandenen FTP-Startdatei und der HTTPS-Startseite bestätigt.
+- Ausschließliches FTP-Ziel: `/wwwcmz`. `/wwwcmz2` darf weder beschrieben noch gelöscht werden.
 - Nur die 24 Dateien aus `dist/` wurden übertragen. Referenzbilder, Quellcode, Prüfberichte, Zugangsdaten und lokale Arbeitsdateien gehören nicht zum Upload.
 - Vorhandene Startseite vor dem Ersetzen gesichert. Andere bestehende Dateien und Verzeichnisse wurden nicht gelöscht.
 - Assets und Unterseiten zuerst, Startseite danach, Apache-Konfiguration zuletzt. Jede Datei wurde zunächst unter temporärem Namen übertragen, gelesen und verglichen, dann umbenannt.
@@ -20,7 +21,9 @@ Der Entwurf ist unter **https://www.christoph-zink.de/** bereitgestellt. Dies is
 
 `public/.htaccess` wird mit dem Build ausgeliefert und konfiguriert:
 
-- Weiterleitung von HTTP und der Domain ohne `www` auf `https://www.christoph-zink.de/`.
+- Ausschließlich `http://curiouscurrent.xyz` wird auf
+  `https://curiouscurrent.xyz` weitergeleitet. Es gibt keine Regel für die
+  alte Domain oder `www`-Hostnamen.
 - Eigene statische 404-Seite mit korrektem HTTP-Status 404.
 - `X-Robots-Tag: noindex, nofollow`, zusätzlich zu den vorhandenen Meta-Tags, `robots.txt` und der leeren Sitemap.
 - `X-Content-Type-Options: nosniff` und `Referrer-Policy: strict-origin-when-cross-origin`.
@@ -72,7 +75,7 @@ Das Skript akzeptiert ausschließlich einen Build mit aktiven Indexierungssperre
 Für Live-Browserchecks ohne Überschreiben der Designabnahme-Dateien:
 
 ```powershell
-$env:PREVIEW_URL = 'https://www.christoph-zink.de'
+$env:PREVIEW_URL = 'https://curiouscurrent.xyz'
 $env:REVIEW_DIR = '.qa/live-deployment-review'
 node scripts/check-browser.mjs
 ```
